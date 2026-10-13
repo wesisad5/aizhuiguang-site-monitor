@@ -1,0 +1,89 @@
+# Weekly aizhuiguang.tech site monitor — surface + data-shape drift alerts.
+#
+# This repo is PUBLIC on purpose: GitHub Actions is free for public repos (the
+# private aizhuiguang-scrape repo's Actions startup-fail on this account's billing
+# plan). It holds ONLY the scanner + fingerprint baseline — no secrets, no data.
+# When drift fires, an issue is opened here (watch this repo to get emails).
+#
+# Scans (vs monitor/baseline.json):
+#   1. site surface — sitemap URL set (new/removed pages)
+#   2. script stamps — every watched page's <script src> + ?v= version stamps
+#   3. data hashes  — sha256 of every same-origin data JS the pages load
+#   4. inline fingerprints — every page's big inline <script> data blocks
+#      (branch-drama's BR_ALL etc. live inline, not as files)
+# On ANY drift: opens/updates the "site drift detected" issue (email), uploads
+# monitor/report.json as an artifact, and FAILS the job (GitHub emails the owner).
+# After syncing changes into the private aizhuiguang-scrape repo, refresh this
+# baseline: python3 monitor/site_monitor.py --update; commit; push.
+#
+# Network: the scanner probes direct HTTPS once (GitHub runners have normal
+# egress — the site resolves IPv6-only + blocks unknown IPv4, which sandboxes
+# hit) and falls back to the translate.goog proxy route. Stdlib only.
+
+name: site-monitor
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"   # every Monday 09:00 UTC
+  workflow_dispatch: {}    # manual trigger
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: site-monitor
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run site monitor
+        id: scan
+        run: |
+          python3 monitor/site_monitor.py || true
+          cat monitor/report.json
+          status=$(python3 -c "import json; print(json.load(open('monitor/report.json'))['status'])")
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-monitor-report
+          path: monitor/report.json
+          if-no-files-found: ignore
+
+      - name: Alert — open/update issue on drift
+        if: steps.scan.outputs.status == 'drift'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TITLE="🔔 site drift detected: aizhuiguang.tech"
+          {
+            echo "The weekly site monitor detected changes on the live site."
+            echo ""
+            echo "**Scanned:** $(python3 -c "import json; print(json.load(open('monitor/report.json'))['scannedAt'])")"
+            echo ""
+            echo '```'
+            python3 -c "import json; [print('  '+f) for f in json.load(open('monitor/report.json'))['findings']]"
+            echo '```'
+            echo ""
+            echo "---"
+            echo "_Action: sync the changed data into the private aizhuiguang-scrape repo, then refresh the baseline here with \`python3 monitor/site_monitor.py --update\` + commit._"
+          } > monitor/issue-body.md
+          ISSUE_URL=$(gh issue list --state open --search "site drift detected in:title" --json url --jq '.[0].url' || true)
+          if [ -n "$ISSUE_URL" ]; then
+            gh issue comment "$ISSUE_URL" --body-file monitor/issue-body.md
+          else
+            gh issue create --title "$TITLE" --body-file monitor/issue-body.md --label "site-drift"
+          fi
+          exit 1  # fail the job → email notification

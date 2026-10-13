@@ -1,0 +1,1072 @@
+{
+ "errors": [],
+ "files": {
+  "/aizg-clear.js": {
+   "sha256": "120bb006145e862381737d180c476f16a4442df2b3f3f8661eb8d07977a861c2",
+   "size": 4191,
+   "stamp": "1"
+  },
+  "/aizg-lang.js": {
+   "sha256": "cd77811d942b513c60c76ffb5314c50aa97251540af9a44651d14a87631f03b8",
+   "size": 68954,
+   "stamp": ""
+  },
+  "/assets/aizg-consent.js": {
+   "sha256": "c8a65e07525b981c675b27bbfda97e43937e14c4762660b47fa10a8c60f70c5c",
+   "size": 6663,
+   "stamp": ""
+  },
+  "/assets/aizg-nav.js": {
+   "sha256": "c639f9af7bb521503e017f1b0b1726391b6204910260650e0ebbfc88d857ac8c",
+   "size": 18643,
+   "stamp": "20260903"
+  },
+  "/assets/aizg-timer-float.js": {
+   "sha256": "7807a822d5f1ec74956f1c5d4eef3e9b71bc31f2b35e0e32ddb43c994c5f50eb",
+   "size": 16798,
+   "stamp": ""
+  },
+  "/assets/daily-hero.js": {
+   "sha256": "512c6b0814740276bd82eeec5641b7b866ed7235ba40463d115b310d8571309e",
+   "size": 2458,
+   "stamp": "20260913a"
+  },
+  "/assets/longshot-filmstrip.js": {
+   "sha256": "411524cabacf7be17f3df172012436e09cfaaa241f57e8d2a2adf6b11bfacd74",
+   "size": 1600,
+   "stamp": "20260912"
+  },
+  "/assets/prompt-data.js": {
+   "sha256": "e21be46dc719b08eadcca5c1805b8e14a7317834dd5de2d1915fc957dada5187",
+   "size": 55367,
+   "stamp": "2026060904"
+  },
+  "/tools/aizg-mini.js": {
+   "sha256": "112cee9be996575e2b684fad75a861ead2086cedc10464b6b662d83eab33d877",
+   "size": 1924803,
+   "stamp": "20260906d"
+  },
+  "/tools/aizg-studio.js": {
+   "sha256": "4000b3c395535d7c1364884937375d1450b17115fca5190696f6110185e43564",
+   "size": 4188,
+   "stamp": "1"
+  },
+  "/tools/bgm-library-20260902.js": {
+   "sha256": "439d31700cb5d7db7e07cc82551c1f46c68cd3b2d3c84712bce87422e4cda754",
+   "size": 458374,
+   "stamp": ""
+  },
+  "/tools/daily-cam.js": {
+   "sha256": "154218c8cbe4615c68feca3aaf1fb7226ee34beb8b61cc5a7705e837b40c39ea",
+   "size": 42346,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-dance.js": {
+   "sha256": "ba42be709e51c96a138593d007bb479079d4946c75f78a1a07a8e094c4178aa8",
+   "size": 65248,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-data.js": {
+   "sha256": "930afd22bd2800f8ac67d340903447cbeceb5c169be4f6e440bc4002492d96c6",
+   "size": 34461,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-detail.js": {
+   "sha256": "a24e17fe508ec707efefbb0b6cdc7b3d04552538bcb64bb545ff2104b30ce12a",
+   "size": 38536,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-influencer-data.js": {
+   "sha256": "59fae3ade8c93ca3135aa4851383d9469e7af022ca32e82c334144ab7361669a",
+   "size": 24279,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-lib.js": {
+   "sha256": "f97167c4a9add62f9dc0459c208bdd3ec19b4b59c08788ced0b40fad48f02deb",
+   "size": 305668,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-look.js": {
+   "sha256": "469452827fdbb1da2aebc8ee72609320e83a8cd999f1bee781fdcf5e98c504da",
+   "size": 24721,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-showcase-data.js": {
+   "sha256": "2b8721739b820893c6f11716169dfc61289c0567c1c7c4d2f7fca6b2e15918b9",
+   "size": 6493,
+   "stamp": "20260824a"
+  },
+  "/tools/daily-showcase-fullscreen.js": {
+   "sha256": "b848e42e1ade31e7f97595409f3356a07366d3ad4da03bcdaa8d5cb3aab97b06",
+   "size": 11605,
+   "stamp": "20260829a"
+  },
+  "/tools/daily-showcase.js": {
+   "sha256": "d9ba24bca56f590403a2e4cdcd2f3e7d21209b4f70f1f9c32c76d47f1672bfa6",
+   "size": 15882,
+   "stamp": "20260913a"
+  },
+  "/tools/dance-bgm-audio.js": {
+   "sha256": "b545f0eb6fcee40c346b8840160ebc00c24b3862152bbd0936e7309e099de1e4",
+   "size": 9841,
+   "stamp": "20260816"
+  },
+  "/tools/dance-bgm-data.js": {
+   "sha256": "a6a0c02400c76866e52ad9a022cb2d67e2a7054041303081052fc01267ebe6e4",
+   "size": 15835,
+   "stamp": "20260824a"
+  },
+  "/tools/drama-db.js": {
+   "sha256": "a46813b2b860352b03e7b7c7044b0a8a5b6b96bdc4922832d3de750ce50a65fb",
+   "size": 4290055,
+   "stamp": "20261002a"
+  },
+  "/tools/jingdi-cast-20260910.js": {
+   "sha256": "a3fb58e62c8bd41163f4f095e5b2bbda188da649f12527e1b4ac24c5028b9f7a",
+   "size": 13030,
+   "stamp": "20260910"
+  },
+  "/tools/jingdi-cast.js": {
+   "sha256": "5d5396b3f75a14d0dd2a369c6bc6c5db065766a5af825ebb6736c459ec9a1b5d",
+   "size": 319146,
+   "stamp": "20260817h"
+  },
+  "/tools/jingdi-data-v195-angles.js": {
+   "sha256": "89fb5f8fd94f27211627ab3eab1c8582ea119807ffd25c0d56044a154944acf2",
+   "size": 164643,
+   "stamp": "20260828f"
+  },
+  "/tools/lightcut-beatstop.js": {
+   "sha256": "61d048a9f5834d8a17fbca361c2018daddb96d6cf65fcfa88fd9b596e21c7411",
+   "size": 47502,
+   "stamp": "20261011a"
+  },
+  "/tools/lightcut-presets.js": {
+   "sha256": "47f0586b35d47dda12a190fbb8d6a10e271f69703db50305c6dedef6379183b2",
+   "size": 27113,
+   "stamp": "20261004b"
+  },
+  "/tools/lightcut-site-tools.js": {
+   "sha256": "a675fe9d88b9c487bf7b70ccbd02ca5fa2f22e3f60419ff58b438e687e002f5d",
+   "size": 46301,
+   "stamp": "20260914i"
+  }
+ },
+ "pages": {
+  "/": {
+   "inline": [
+    {
+     "sha256": "0b03a505445636dc2b5b641a25c94c43aba394f1e5748cc6508edabd91c20599",
+     "size": 582
+    },
+    {
+     "sha256": "550d47b5477890548e82cb691f970ff611ad879e546056b5b7fb2719b43b44c3",
+     "size": 1399
+    },
+    {
+     "sha256": "9710e7601e57fe22c03dd625ce8cde0f216afdf83195a5a77a534e218fbe175d",
+     "size": 1470
+    },
+    {
+     "sha256": "d091bef9d28151a950770abedd24416c313e98bd6b334c2dee26cdc66bcb2f48",
+     "size": 1830
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "fde2a4bb0fc27a5faea5a8bda08c79f18ae4367b312d1bfb493a07bf0e0b14db",
+     "size": 3271
+    },
+    {
+     "sha256": "9e3dfb8ef4dbf9d7455193d179f71b32a03273f216087fefbf03b5fd9935b12a",
+     "size": 4304
+    },
+    {
+     "sha256": "4f8fbf662a384c615c8f031b809ce4734d24e9fc94bf898c79cfa586f5d30ff8",
+     "size": 6714
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-timer-float.js": ""
+   },
+   "status": 200
+  },
+  "/gallery/dameng.html": {
+   "inline": [
+    {
+     "sha256": "4e7b0da4adc5011db3a7ff3e0882711eb2ed3b7ebf0fc2627200117918ab941b",
+     "size": 2787
+    },
+    {
+     "sha256": "912d721466edf30bcc880729f5d6902b5e982b441a22985872a60e82bdb697fb",
+     "size": 2850
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": ""
+   },
+   "status": 200
+  },
+  "/gallery/grid-story.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "7e2fa0f931539cf042c90c40a8d4d4fbd88d87c294aa5b79fa009fd52d39fbcc",
+     "size": 57170
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/gallery/image-prompts.html": {
+   "inline": [
+    {
+     "sha256": "dc9181217e510b01b72aaaccdd1a49becda72a31325239a5bcfb5fafb0629921",
+     "size": 517
+    },
+    {
+     "sha256": "98db6e3e94d7e1e614b096a7238e0cbfe4fe2fbfbf04d0d44f3727d76df67c0d",
+     "size": 2779
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/prompt-data.js": "2026060904"
+   },
+   "status": 200
+  },
+  "/gallery/lumi-bot.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "bddb20020dd42c01ad1f82d3ece9800fce28c60b0cc838e5a315010486e5dd6b",
+     "size": 37059
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": ""
+   },
+   "status": 200
+  },
+  "/gallery/music-prompts.html": {
+   "inline": [
+    {
+     "sha256": "4b67b919a9b3b5bdbe1b2d49cf652eb97c714298a13cd3512ebae770dac3cdaa",
+     "size": 520
+    },
+    {
+     "sha256": "ed860b895cf4b9fb559d47ead5e4df6d4ddabc56f2b3a2a808dc9448da0c42d6",
+     "size": 1628
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/prompt-data.js": "2026060904"
+   },
+   "status": 200
+  },
+  "/gallery/mv-studio.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "76cea4f779a8e6a9480836f7d529a677add1252e87604d809b0cfe6bcf7abb52",
+     "size": 4648
+    },
+    {
+     "sha256": "6076944119dda826ec81de58662d133895cb16f22ef33a9daf4d8942690fb10e",
+     "size": 32391
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/gallery/narrative.html": {
+   "inline": [
+    {
+     "sha256": "81eee80d3e7c3c467418b37d73a40ada475925c6aeceff83425449b632c24085",
+     "size": 2522
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "dd1a4cbed2f8ad9c0c6841aeb5780cb195c9d87f68cc2f628f02bcb6b08bce82",
+     "size": 3804
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": ""
+   },
+   "status": 200
+  },
+  "/gallery/pose-prompts.html": {
+   "inline": [
+    {
+     "sha256": "6063e6bd310b8605fe185496e3bf417b1084acb9bc73beffbb880051dff8a719",
+     "size": 1598
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/prompt-data.js": "2026060904"
+   },
+   "status": 200
+  },
+  "/gallery/shorts.html": {
+   "inline": [
+    {
+     "sha256": "e23ebf5bafc2706e8b0d64e7b7afc657613a59fd1df9ce86335474612eb66670",
+     "size": 2641
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "968dad0c2ed5f5f566d1077c48a5a6dbb3642dbf80af67a3050bcc2fa38b4119",
+     "size": 5185
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": ""
+   },
+   "status": 200
+  },
+  "/gallery/transform.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "8b2b019cd6d487dcb97d405ecf800d6bdba2e3e2434174799bfa5675c6d4b235",
+     "size": 13147
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/gallery/transitions.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "9ea6667bb7f73f1731b1e7f29aa59ee4ad8f0a0d4280bd9240c1be20b6656100",
+     "size": 6452
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/gallery/video-prompts.html": {
+   "inline": [
+    {
+     "sha256": "97f8ec04e3726bcd17add4a980f3d3b3d3813278e14ebb5ea18e8b891ef6dec4",
+     "size": 517
+    },
+    {
+     "sha256": "260f74b06662fd614a61547c5fe48b3a95da9b332f0c5a3e365ae21a03c579b8",
+     "size": 726
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/prompt-data.js": "2026060904"
+   },
+   "status": 200
+  },
+  "/gallery/viral-scene.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "2d50dffcb77fcf958fd0f5cdd6277645f2ad08ba5c1200170ed41058db16bb97",
+     "size": 119377
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/asset-studio.html": {
+   "inline": [
+    {
+     "sha256": "1448a59531ebdb2089ba769e82dd5e57010140a3fd1d73d8da0f7236ef898943",
+     "size": 3396
+    },
+    {
+     "sha256": "42942854b3049f5ee039adea7c4eafcd81c0dbbf094d1f54317e552ccb977208",
+     "size": 19132
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/assets.html": {
+   "inline": [
+    {
+     "sha256": "17ae695cfe4429938232062cc60b651151dc8f1c72084ed472894509d1f41bea",
+     "size": 15538
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/boxing-prompt.html": {
+   "inline": [
+    {
+     "sha256": "6183265f8087bf137da53854b332c041282aae6a604f766d4379948c0065a6ce",
+     "size": 1157
+    },
+    {
+     "sha256": "2166cb361e90ece3e5032f35b0b6fdca07c4dba4f9b4ef1eda4c64ade9191013",
+     "size": 1633
+    },
+    {
+     "sha256": "968094e100b5334358cff7f3f2337e60a3a33fa085830e2fa5a54bf39783b62c",
+     "size": 1650
+    },
+    {
+     "sha256": "49ea4c1eb122e2e60377f24d9256b49fac4ed6141a8b1fa8e864fcec61dc210e",
+     "size": 2950
+    },
+    {
+     "sha256": "26ae208b4fa52c5da69634c6241069c6e832b13205730877709fed3dd668f1ee",
+     "size": 2991
+    },
+    {
+     "sha256": "932819f7a801479426b3077ba401ac8e81c42092b0713e8ee4f3b3507350f5bf",
+     "size": 8805
+    },
+    {
+     "sha256": "d58e7e89f60979ae755d5f9184f52073eb16c020855cf79ff0e4a6d863e41222",
+     "size": 17927
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/branch-drama.html": {
+   "inline": [
+    {
+     "sha256": "7b6345ec66c41bc24bad7571b811f91f03a67a674f30fad5310de517f7595242",
+     "size": 59476
+    },
+    {
+     "sha256": "446a3caf398e2b562a32e34d373e200bbcf3f628ef13a5836b9370bca6d15dd2",
+     "size": 1532807
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/character-studio.html": {
+   "inline": [
+    {
+     "sha256": "4784cad79c2917cc330bda0798ddbd888bf5df2abce5e1b1114699d31e41bc75",
+     "size": 569
+    },
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "1c0e1a78038edb9cc728a9a7f7d111c10fadcaf02f455d92ca29f62afbe4da89",
+     "size": 4818
+    },
+    {
+     "sha256": "514786f27882968b7c991354ec46337d9561ba1b8800aaff9d22ee115322c181",
+     "size": 14647
+    },
+    {
+     "sha256": "6d70a7bed6368546711c9ba35e2ab1fdb74ba18567a929f234f5d4e1819cb81d",
+     "size": 14983
+    },
+    {
+     "sha256": "f4f0197c13a38a050147349148c0ad36fdbfdf401cc19d4ed32af7fd8b3afba5",
+     "size": 119894
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/character-turnaround.html": {
+   "inline": [
+    {
+     "sha256": "5ed984b1b1115a22c33c867fa0ce676ec9ecb1bc349e53dc9b5863b4f8862b3f",
+     "size": 1253
+    },
+    {
+     "sha256": "f6c3b64637c48def6fc4b7c7b05ec006b4860e0ed21dd4ee268d340e459529b2",
+     "size": 14825
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/aizg-studio.js": "1"
+   },
+   "status": 200
+  },
+  "/tools/daily.html": {
+   "inline": [
+    {
+     "sha256": "f7ff584462b3eb960ed0d7dbe16296e410873be27fe2958e4d77a7164b11c1f0",
+     "size": 98342
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/assets/daily-hero.js": "20260913a",
+    "/tools/daily-cam.js": "20260824a",
+    "/tools/daily-dance.js": "20260824a",
+    "/tools/daily-data.js": "20260824a",
+    "/tools/daily-detail.js": "20260824a",
+    "/tools/daily-influencer-data.js": "20260824a",
+    "/tools/daily-lib.js": "20260824a",
+    "/tools/daily-look.js": "20260824a",
+    "/tools/daily-showcase-data.js": "20260824a",
+    "/tools/daily-showcase-fullscreen.js": "20260829a",
+    "/tools/daily-showcase.js": "20260913a",
+    "/tools/dance-bgm-audio.js": "20260824a",
+    "/tools/dance-bgm-data.js": "20260824a"
+   },
+   "status": 200
+  },
+  "/tools/dance-bgm.html": {
+   "inline": [
+    {
+     "sha256": "46ed83212bbc0684343516c13888b381bc15ed7f5d1043b666b70b521ab189ed",
+     "size": 32213
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/dance-bgm-audio.js": "20260816"
+   },
+   "status": 200
+  },
+  "/tools/demo-script-2.html": {
+   "inline": [
+    {
+     "sha256": "ddf9ddd6910b3a7762f2fbdfcc8132d0ffa8303ba13ae535482179973cacb001",
+     "size": 2101
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/demo-script.html": {
+   "inline": [
+    {
+     "sha256": "d941094450831708c109feeb107c56f65dea0ada2a5a6be9d54b548b832ecc4b",
+     "size": 815
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/jimeng-studio.html": {
+   "inline": [
+    {
+     "sha256": "c61892a242847f2a67280f8ac8bc6a907f8cb70c234e19d803c2054a69148854",
+     "size": 18633
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": ""
+   },
+   "status": 200
+  },
+  "/tools/jingdi.html": {
+   "inline": [
+    {
+     "sha256": "2d9ba2d70e1c43595d3801206530e4d400d3be0d5ea5284b19e7943b6ebfd486",
+     "size": 21394
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/jingdi-cast-20260910.js": "20260910",
+    "/tools/jingdi-cast.js": "20260817h",
+    "/tools/jingdi-data-v195-angles.js": "20260828f"
+   },
+   "status": 200
+  },
+  "/tools/lightcut-subtitles.html": {
+   "inline": [
+    {
+     "sha256": "6031498094e3dbb92d40244a77b585774a9676842f9eb34c5046cf3581a46860",
+     "size": 12685
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/lightcut.html": {
+   "inline": [
+    {
+     "sha256": "2d5f310403588633059f7e98ecbf2db039d1543e482efb0211475192175f9380",
+     "size": 648
+    },
+    {
+     "sha256": "9167d243632b55c7e53405a92afe704a66a57150cde35b3c2373373e08e36e29",
+     "size": 832
+    },
+    {
+     "sha256": "fd3c2157a5c477f72cfa86603ccdf1c283c30668e8851bdf73e16b742d6d507a",
+     "size": 998
+    },
+    {
+     "sha256": "f1b65317eaced7b3a59e79ee36ebd2609dcd9efc1fc8402eabf987b199f27d1a",
+     "size": 1125
+    },
+    {
+     "sha256": "dead0e64ccab07e243410438558fa5d228a2ddbd2a51d54af1979a42af6e0a45",
+     "size": 1205
+    },
+    {
+     "sha256": "a651d2e799a29e3373362e9cc0e4545585fa29492f897c665f879215c6bb9c92",
+     "size": 1470
+    },
+    {
+     "sha256": "0dd3d589dbcb75ee563ad4755bb408ca392b2dc34d3ce5b7fdf1561c455c6b7e",
+     "size": 1589
+    },
+    {
+     "sha256": "41d94d7022cc1347f8b7922da7682081dd103047188f5edcb0d76c8a92637bce",
+     "size": 2174
+    },
+    {
+     "sha256": "78e5fe8527993ccae6623c419f2fb8ea397fd63c30dc957aa2fa5d5900cb7614",
+     "size": 3350
+    },
+    {
+     "sha256": "e653535d6bba4e0960b5ca8dd9820a16953755ab8193c2eb4b20260611899c3c",
+     "size": 3657
+    },
+    {
+     "sha256": "257406c38c070423cba5c6ad281b65f9712540deee56b9a78faa4cf22ef0352c",
+     "size": 5066
+    },
+    {
+     "sha256": "479fbab39c6d818502b38df76af0b95ea653b0d3578bde462443ce6bd25efe10",
+     "size": 13318
+    },
+    {
+     "sha256": "33a4bd0f3f4f9331e16d44bf33df5284eac7bfa27e655388c2c15b0f391a54bc",
+     "size": 14875
+    },
+    {
+     "sha256": "23fcf702c18e9bf88e43ce49347d0496d78ff34ca99818cfae33cb5fd3839b6e",
+     "size": 18968
+    },
+    {
+     "sha256": "21f3701d3bab29bc695cb753ea959da4e4eb1f52f75ebbfd721042751bcb6646",
+     "size": 73461
+    },
+    {
+     "sha256": "360e03abecd4802385d31af3da90e827e9bc88868f35bc51dcacde9cf1e9eb87",
+     "size": 73923
+    },
+    {
+     "sha256": "89a08da6a2669a40c063f6ec9410a14c8c21a6f9f539e745564d946e6f871316",
+     "size": 78016
+    },
+    {
+     "sha256": "d4ecc7037548a57c6f63d01953c5ce2b8da6bc4c3e2aa512b604360457780187",
+     "size": 355319
+    },
+    {
+     "sha256": "1aa68036f82606c706be3ab4833c38caee4f1cad08499a2d7057a37c47805a85",
+     "size": 619362
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/lightcut-beatstop.js": "20261011a",
+    "/tools/lightcut-presets.js": "20261004b",
+    "/tools/lightcut-site-tools.js": "20260914i"
+   },
+   "status": 200
+  },
+  "/tools/longshot.html": {
+   "inline": [
+    {
+     "sha256": "6fb8f232bfe64fa91edea90087c8a427e5b2dbd1c9ca0968933597ff36428db1",
+     "size": 92483
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/assets/longshot-filmstrip.js": "20260912"
+   },
+   "status": 200
+  },
+  "/tools/manju.html": {
+   "inline": [
+    {
+     "sha256": "fdfcce76a11690790f33480dd75ef32bb166d1d6ba68fbf4e74b7cbdd1128aa9",
+     "size": 2446
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/music-prompt.html": {
+   "inline": [
+    {
+     "sha256": "ba78d76cfe12cc3939b38e510637b56fb1248c5bb3d6425e70e269a7448a362d",
+     "size": 7507
+    },
+    {
+     "sha256": "429b75283e45e99cfda766ac87d02a5361f196290043ac1e988d0540bcf9c1fe",
+     "size": 37743
+    },
+    {
+     "sha256": "7671fb4be353a37969b332b3f30f0b4cf676f03f0dfbf704de19bb82ece69a34",
+     "size": 46919
+    },
+    {
+     "sha256": "2d587723f9af8cac065be7c769c41c98eb70e96d5dc27e4bc65663e718560e8e",
+     "size": 419489
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/bgm-library-20260902.js": ""
+   },
+   "status": 200
+  },
+  "/tools/object-lab.html": {
+   "inline": [
+    {
+     "sha256": "fc686f80882fdbf4c35e4ea4f35fa0fb1d94aa5d6fc0bae9d340a68586219020",
+     "size": 3253
+    },
+    {
+     "sha256": "74e5ee7b7234059f9b2efba8af6fd268ff0e4f3b88e298666b44af298812837e",
+     "size": 18579
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/aizg-lang.js": "20260806",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/prompt-generator.html": {
+   "inline": [
+    {
+     "sha256": "6d33d44101528143bcbfd1d6c3163f499540d1c1aa00efd18a1993f13d2d5f40",
+     "size": 622
+    },
+    {
+     "sha256": "56e8cc1a024bfbbcc205c9bdce90dd11701254d093f26b909587e9a0617cb2e5",
+     "size": 745
+    },
+    {
+     "sha256": "94092f92943a2c96015109c577e5a168e22a6a613c8bc08ac399f64cf918004e",
+     "size": 1687
+    },
+    {
+     "sha256": "7bed0df30be5ad2399ac8079390def9ac81b83b82a0cef3c878efa8f734fb8af",
+     "size": 1880
+    },
+    {
+     "sha256": "1448a59531ebdb2089ba769e82dd5e57010140a3fd1d73d8da0f7236ef898943",
+     "size": 3396
+    },
+    {
+     "sha256": "c2cf8496d65695b80dd9264e4e662443ddc2ab5bfb9d210903326d93c9e128c2",
+     "size": 3471
+    },
+    {
+     "sha256": "73173cba5f43172db6a0eea7dd0bf2d6033921f62ebcbb5d8d59ade3fe6179ea",
+     "size": 4687
+    },
+    {
+     "sha256": "6039cf115c370132c47ea8679fec9dfb642e581767c14807a8fa0ee3467b8bb1",
+     "size": 8508
+    },
+    {
+     "sha256": "3c83af26eda3fe3e3a0d89fc5b85edfb397bb3d0c0fd7d8400d0cc6d02815230",
+     "size": 38531
+    },
+    {
+     "sha256": "176bbe22ab3821e29844b4ed52914909090ab500fd7e9654fb24520088d8651e",
+     "size": 123093
+    },
+    {
+     "sha256": "e330cc88cc2418e9ab7eb8b2fd5e43805ec2382b6b97a0d1ab33ad7a23865a4a",
+     "size": 207540
+    }
+   ],
+   "scripts": {
+    "/aizg-clear.js": "1",
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903",
+    "/tools/aizg-mini.js": "20260906d",
+    "/tools/drama-db.js": "20261002a"
+   },
+   "status": 200
+  },
+  "/tools/skill-weaver.html": {
+   "inline": [
+    {
+     "sha256": "5659c074452a714fc970ee507b4561e6b196a9107eea47c3d0008fd0e71782ec",
+     "size": 66400
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/studio.html": {
+   "inline": [
+    {
+     "sha256": "4c61c65d8fffe6ae51d211f331226d4072f87644997da3c8e2d41477356cd4d8",
+     "size": 1500
+    },
+    {
+     "sha256": "0411bf2860cf77ddbf88261d34bc9f399a59ab547c46c2eb912a08c744f0d1b1",
+     "size": 1957
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/timer.html": {
+   "inline": [
+    {
+     "sha256": "6112ca865c6b5a80c4a1bd659b8e653b9e15f55ad634456a42438f3b53677a43",
+     "size": 9453
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  },
+  "/tools/voice-studio.html": {
+   "inline": [
+    {
+     "sha256": "dd1bd6459089c5e3c6377ef3fe18b165d502d91bd8f2e291e2928bd87475a777",
+     "size": 10713
+    },
+    {
+     "sha256": "c77c8852889b44bd550e0de0aed348169345a459e891be234ce3a98e3ba686d2",
+     "size": 68088
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "",
+    "/assets/aizg-nav.js": "20260903"
+   },
+   "status": 200
+  }
+ },
+ "scannedAt": "2026-10-13T03:29:14+00:00",
+ "sitemap": [
+  "https://aizhuiguang.tech/",
+  "https://aizhuiguang.tech/gallery/",
+  "https://aizhuiguang.tech/gallery/ai-tools.html",
+  "https://aizhuiguang.tech/gallery/audiobook.html",
+  "https://aizhuiguang.tech/gallery/cs-strike.html",
+  "https://aizhuiguang.tech/gallery/dameng.html",
+  "https://aizhuiguang.tech/gallery/grid-story.html",
+  "https://aizhuiguang.tech/gallery/grok.html",
+  "https://aizhuiguang.tech/gallery/image-prompts.html",
+  "https://aizhuiguang.tech/gallery/lumi-bot.html",
+  "https://aizhuiguang.tech/gallery/multimodal.html",
+  "https://aizhuiguang.tech/gallery/music-prompts.html",
+  "https://aizhuiguang.tech/gallery/mv-studio.html",
+  "https://aizhuiguang.tech/gallery/narrative.html",
+  "https://aizhuiguang.tech/gallery/pose-prompts.html",
+  "https://aizhuiguang.tech/gallery/ren-ting-fps/",
+  "https://aizhuiguang.tech/gallery/shorts.html",
+  "https://aizhuiguang.tech/gallery/sky-strike.html",
+  "https://aizhuiguang.tech/gallery/transform.html",
+  "https://aizhuiguang.tech/gallery/transitions.html",
+  "https://aizhuiguang.tech/gallery/tutorials.html",
+  "https://aizhuiguang.tech/gallery/video-prompts.html",
+  "https://aizhuiguang.tech/gallery/viral-scene.html",
+  "https://aizhuiguang.tech/guides/",
+  "https://aizhuiguang.tech/guides/8gb-local-image-model-test.html",
+  "https://aizhuiguang.tech/guides/8gb-vram-image-generation-guide.html",
+  "https://aizhuiguang.tech/guides/ai-image-failure-diagnosis.html",
+  "https://aizhuiguang.tech/guides/ai-model-test-record-template.html",
+  "https://aizhuiguang.tech/guides/ai-video-prompt.html",
+  "https://aizhuiguang.tech/guides/browser-editor-media-loss.html",
+  "https://aizhuiguang.tech/guides/character-consistency.html",
+  "https://aizhuiguang.tech/guides/choose-ai-video-model.html",
+  "https://aizhuiguang.tech/guides/engine-setup.html",
+  "https://aizhuiguang.tech/guides/image-resolution-and-upscale-guide.html",
+  "https://aizhuiguang.tech/guides/oneshot-vs-storyboard.html",
+  "https://aizhuiguang.tech/guides/photoreal-portrait-prompt-workflow.html",
+  "https://aizhuiguang.tech/guides/reference-image-consistency-test.html",
+  "https://aizhuiguang.tech/guides/series-vs-standalone-script.html",
+  "https://aizhuiguang.tech/guides/three-minute-ai-short-film-workflow.html",
+  "https://aizhuiguang.tech/guides/timeline-frame-alignment.html",
+  "https://aizhuiguang.tech/juben/",
+  "https://aizhuiguang.tech/juben/fenghuanchao.html",
+  "https://aizhuiguang.tech/juben/fenghuang_niepan.html",
+  "https://aizhuiguang.tech/juben/fuchou_nvwang.html",
+  "https://aizhuiguang.tech/juben/pochan_dagong.html",
+  "https://aizhuiguang.tech/juben/shaoshuai_furen.html",
+  "https://aizhuiguang.tech/juben/shenyi_dinv.html",
+  "https://aizhuiguang.tech/juben/zhedan_zhenqinsong.html",
+  "https://aizhuiguang.tech/juben/zhichang_zuoxi.html",
+  "https://aizhuiguang.tech/juben/zidong_huifu.html",
+  "https://aizhuiguang.tech/legal/",
+  "https://aizhuiguang.tech/legal/about.html",
+  "https://aizhuiguang.tech/legal/contact.html",
+  "https://aizhuiguang.tech/legal/disclaimer.html",
+  "https://aizhuiguang.tech/legal/privacy.html",
+  "https://aizhuiguang.tech/legal/terms.html",
+  "https://aizhuiguang.tech/tools/",
+  "https://aizhuiguang.tech/tools/asset-studio.html",
+  "https://aizhuiguang.tech/tools/assets.html",
+  "https://aizhuiguang.tech/tools/boxing-prompt.html",
+  "https://aizhuiguang.tech/tools/branch-drama.html",
+  "https://aizhuiguang.tech/tools/character-studio.html",
+  "https://aizhuiguang.tech/tools/character-turnaround.html",
+  "https://aizhuiguang.tech/tools/daily.html",
+  "https://aizhuiguang.tech/tools/dance-bgm.html",
+  "https://aizhuiguang.tech/tools/demo-script-2.html",
+  "https://aizhuiguang.tech/tools/demo-script.html",
+  "https://aizhuiguang.tech/tools/jimeng-studio.html",
+  "https://aizhuiguang.tech/tools/jingdi.html",
+  "https://aizhuiguang.tech/tools/lightcut-subtitles.html",
+  "https://aizhuiguang.tech/tools/lightcut.html",
+  "https://aizhuiguang.tech/tools/longshot.html",
+  "https://aizhuiguang.tech/tools/manju.html",
+  "https://aizhuiguang.tech/tools/music-prompt.html",
+  "https://aizhuiguang.tech/tools/object-lab.html",
+  "https://aizhuiguang.tech/tools/prompt-generator.html",
+  "https://aizhuiguang.tech/tools/skill-weaver.html",
+  "https://aizhuiguang.tech/tools/studio.html",
+  "https://aizhuiguang.tech/tools/timer.html",
+  "https://aizhuiguang.tech/tools/voice-studio.html",
+  "https://aizhuiguang.tech/tools/音效库清单.html"
+ ]
+}
