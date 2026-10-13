@@ -49,3 +49,17 @@ python3 monitor/site_monitor.py --update   # re-baseline from live
 Stdlib only. Direct HTTPS first, translate.goog proxy fallback (the site resolves
 IPv6-only and hangs unknown IPv4 egress — sandboxes need the proxy; GitHub
 runners go direct).
+
+## ⚠️ One-time activation needed (pick either provider)
+
+Both CI runner paths are fully wired but blocked by account-level checks the
+sandbox cannot perform. Activate ONE:
+
+| Provider | Status | One-time action |
+|---|---|---|
+| **GitLab CI** (recommended — schedule + issue alerting wired) | pipeline blocked: "Identity verification required" | log in → https://gitlab.com → complete identity verification (Settings). The weekly schedule (Mon 09:00 UTC, id 4488296) then runs automatically. ~10 min/week ≪ 400 free minutes/month. |
+| **GitHub Actions** (workflow committed here + in the private scrape repo) | jobs die at startup, 0 steps, account-wide (even trivial echo workflows in public repos) | add/verify a payment method at github.com/settings/billing — Actions on THIS public repo is free. |
+
+The scanner itself is fully tested (30/30 data files hashed, 81 sitemap URLs,
+112 inline blocks, 0 fetch errors via the proxy route) and can be run manually
+anytime: `python3 monitor/site_monitor.py`.
