@@ -1,0 +1,81 @@
+# GitLab CI — weekly aizhuiguang.tech drift monitor.
+#
+# Why GitLab: the GitHub account's Actions runners startup-fail account-wide
+# (free plan, 0-step job death even in public repos); this GitLab group's
+# runners demonstrably work. ~10 min/week ≈ 40 min/month — well within the
+# 400 free compute minutes.
+#
+# Schedule: weekly pipeline (set on the project: Schedules → Mon 09:00 UTC;
+# also runs on manual pipeline runs and pushes to main).
+# On drift: opens/updates a GitLab issue (via GL_PAT variable) and FAILS the
+# job (pipeline failure notification + visible red pipeline).
+# After syncing: python3 monitor/site_monitor.py --update, commit, push.
+
+image: python:3.12-slim
+
+variables:
+  GIT_DEPTH: "1"
+
+stages:
+  - scan
+
+site-monitor:
+  stage: scan
+  tags: []          # shared runners
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"      # manual Run pipeline
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+      when: manual                           # don't burn minutes on every push
+  script:
+    - python3 monitor/site_monitor.py || true
+    - |
+      cat monitor/report.json
+      status=$(python3 -c "import json; print(json.load(open('monitor/report.json'))['status'])")
+      echo "status=$status" >> monitor_run.env
+      if [ "$status" = "drift" ] && [ -n "$GL_PAT" ]; then
+        python3 - << 'PYEOF'
+        import json, os, urllib.request, urllib.parse
+        base = "https://gitlab.com/api/v4"
+        pat = os.environ["GL_PAT"]
+        pid = os.environ["CI_PROJECT_ID"]
+        findings = json.load(open("monitor/report.json"))["findings"]
+        scanned = json.load(open("monitor/report.json"))["scannedAt"]
+        body = ("The weekly site monitor detected changes on the live site.\n\n"
+                f"**Scanned:** {scanned}\n\n```\n" +
+                "\n".join("  " + f for f in findings) +
+                "\n```\n\n---\n_Action: sync the changed data into the "
+                "aizhuiguang-scrape repo, then refresh the baseline here "
+                "(`python3 monitor/site_monitor.py --update`) and commit._")
+        # find an existing open drift issue
+        q = urllib.parse.quote("site drift detected in:title")
+        req = urllib.request.Request(
+            f"{base}/projects/{pid}/issues?state=opened&search={q}&per_page=1",
+            headers={"PRIVATE-TOKEN": pat})
+        try:
+            issues = json.load(urllib.request.urlopen(req, timeout=30))
+        except Exception:
+            issues = []
+        data = json.dumps({"description": body}).encode()
+        headers = {"PRIVATE-TOKEN": pat, "Content-Type": "application/json"}
+        if issues:
+            iid = issues[0]["iid"]
+            req = urllib.request.Request(
+                f"{base}/projects/{pid}/issues/{iid}/notes",
+                data=data, headers=headers)
+            print("commenting on issue", iid)
+        else:
+            data = json.dumps({"title": "🔔 site drift detected: aizhuiguang.tech",
+                               "description": body, "labels": "site-drift"}).encode()
+            req = urllib.request.Request(
+                f"{base}/projects/{pid}/issues", data=data, headers=headers)
+            print("creating drift issue")
+        urllib.request.urlopen(req, timeout=30).read()
+        PYEOF
+      fi
+  artifacts:
+    paths:
+      - monitor/report.json
+    expire_in: 30 days
+    reports:
+      dotenv: monitor_run.env
