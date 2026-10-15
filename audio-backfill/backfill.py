@@ -40,7 +40,7 @@ UA = 'aizg-backfill/1.0 (+netlify build compute)'
 # are platform-broken since 2026-10-02 per the aigc-netlify-runner harness)
 NETLIFY_PAT = os.environ.get('NETLIFY_PAT', '')
 NETLIFY_SITE_ID = os.environ.get('NETLIFY_SITE_ID', '')
-LANE_BRANCH = os.environ.get('LANE_BRANCH', '')
+LANE_BRANCH = os.environ.get('LANE_BRANCH', '') or os.environ.get('BRANCH', '')
 KILL_URL = 'https://raw.githubusercontent.com/wesisad5/aizhuiguang-site-monitor/main/audio-backfill/CHAIN'
 
 MP3_MAGIC = (b'ID3', b'\xff\xfb', b'\xff\xf3', b'\xff\xf2', b'\xff\xe2',

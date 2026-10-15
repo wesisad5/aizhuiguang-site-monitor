@@ -1,14 +1,13 @@
-# audio-backfill netlify site (S12) — site base dir = audio-backfill/
-# Build compute for downloading missing aizhuiguang audio binaries into the
-# private scrape repo (wesisad5/aizhuiguang-scrape) via git fast-import.
-# Self-chaining: plugins/chain-trigger POSTs BUILD_HOOK_URL unless complete
-# or the CHAIN kill switch (this repo) is off.
+# audio-backfill netlify site (S12) — builds from the PUBLIC GitLab mirror of
+# this repo (ansgareutychisO/aizhuiguang-site-monitor), lane branch
+# lane/aizg-backfill (0-credit branch deploys per the aigc-netlify-runner
+# harness rules: never the default branch).
+# State lives in the private scrape repo (git IS the disk — the runner
+# recomputes the missing set from the GitHub tree every build).
+# Self-chains via POST /sites/{NETLIFY_SITE_ID}/builds {"branch": BRANCH}.
 [build]
   command = "mkdir -p pub && python3 backfill.py"
   publish = "pub"
-
-[[plugins]]
-  package = "./plugins/chain-trigger"
 
 [build.environment]
   PYTHONUNBUFFERED = "true"
