@@ -1,16 +1,16 @@
 {
- "started": "2026-10-15T01:59:23.244Z",
+ "started": "2026-10-15T02:00:04.406Z",
  "total_wanted": 1319,
- "missing_before": 1212,
+ "missing_before": 1105,
  "batch_size": 107,
  "downloaded": 107,
  "failed": [],
- "dl_ms": 9341,
+ "dl_ms": 6783,
  "pushed": 107,
- "push_ms": 30004,
- "remaining": 1105,
+ "push_ms": 34386,
+ "remaining": 998,
  "completed": false,
  "runs_without_progress": 0,
  "kind": "RUN",
- "ts": "2026-10-15T02:00:03.162Z"
+ "ts": "2026-10-15T02:00:45.975Z"
 }
