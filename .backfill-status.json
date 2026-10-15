@@ -1,9 +1,9 @@
 {
- "started": "2026-10-15T02:07:09.372Z",
+ "started": "2026-10-15T02:07:56.608Z",
  "total_wanted": 1319,
- "missing_before": 95,
- "batch_size": 95,
- "downloaded": 86,
+ "missing_before": 11,
+ "batch_size": 11,
+ "downloaded": 2,
  "failed": [
   "sfx-game-100.mp3",
   "sfx-game-63.mp3",
@@ -15,12 +15,12 @@
   "sfx-game-95.mp3",
   "sfx-weapon-87.mp3"
  ],
- "dl_ms": 14382,
- "pushed": 84,
- "push_ms": 31339,
- "remaining": 11,
+ "dl_ms": 12723,
+ "pushed": 2,
+ "push_ms": 2041,
+ "remaining": 9,
  "completed": false,
  "runs_without_progress": 0,
  "kind": "RUN",
- "ts": "2026-10-15T02:07:55.503Z"
+ "ts": "2026-10-15T02:08:11.694Z"
 }
