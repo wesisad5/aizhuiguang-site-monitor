@@ -1,5 +1,5 @@
 {
- "started": "2026-10-15T02:04:34.289Z",
+ "started": "2026-10-15T02:04:59.690Z",
  "total_wanted": 1319,
  "missing_before": 389,
  "batch_size": 107,
@@ -15,12 +15,12 @@
   "sfx-game-95.mp3",
   "sfx-weapon-87.mp3"
  ],
- "dl_ms": 12695,
- "pushed": 98,
- "push_ms": 35643,
+ "dl_ms": 12715,
+ "pushed": 94,
+ "push_ms": 38872,
  "remaining": 291,
  "completed": false,
  "runs_without_progress": 0,
  "kind": "RUN",
- "ts": "2026-10-15T02:05:23.024Z"
+ "ts": "2026-10-15T02:05:51.649Z"
 }
