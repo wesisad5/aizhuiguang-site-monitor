@@ -36,6 +36,13 @@ MAX_FILES = int(os.environ.get('MAX_FILES', '80'))
 WORKERS = int(os.environ.get('WORKERS', '4'))
 UA = 'aizg-backfill/1.0 (+netlify build compute)'
 
+# self-chaining (s21 pattern: POST /sites/{site}/builds {branch} — build hooks
+# are platform-broken since 2026-10-02 per the aigc-netlify-runner harness)
+NETLIFY_PAT = os.environ.get('NETLIFY_PAT', '')
+NETLIFY_SITE_ID = os.environ.get('NETLIFY_SITE_ID', '')
+LANE_BRANCH = os.environ.get('LANE_BRANCH', '')
+KILL_URL = 'https://raw.githubusercontent.com/wesisad5/aizhuiguang-site-monitor/main/audio-backfill/CHAIN'
+
 MP3_MAGIC = (b'ID3', b'\xff\xfb', b'\xff\xf3', b'\xff\xf2', b'\xff\xe2',
              b'OggS', b'RIFF', b'ftyp')
 MIN_BYTES = 4096
@@ -149,6 +156,45 @@ def push_batch(results):
     return pushed
 
 
+def chain_next():
+    """Trigger the next build on this site via the authenticated builds API.
+
+    Build hooks POST 200 but no-op platform-wide since ~2026-10-02 (s21
+    finding from the aigc-netlify-runner harness) — the API POST
+    /sites/{site}/builds {"branch": ...} is the validated trigger path.
+    """
+    if not (NETLIFY_PAT and NETLIFY_SITE_ID and LANE_BRANCH):
+        log('chain: NETLIFY_PAT/NETLIFY_SITE_ID/LANE_BRANCH not set — NOT chaining')
+        return False
+    body = json.dumps({'branch': LANE_BRANCH}).encode()
+    for attempt in range(3):
+        try:
+            req = urllib.request.Request(
+                f'https://api.netlify.com/api/v1/sites/{NETLIFY_SITE_ID}/builds',
+                data=body, method='POST',
+                headers={'Authorization': f'Bearer {NETLIFY_PAT}',
+                         'Content-Type': 'application/json'})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                j = json.load(r)
+            log(f'chain: next build triggered (id={str(j.get("id"))[:12]})')
+            return True
+        except Exception as e:
+            log(f'chain: attempt {attempt+1} failed: {e}')
+            time.sleep(5 * (attempt + 1))
+    return False
+
+
+def kill_switch_on():
+    """Public-repo kill switch (CHAIN file != 'on' stops the chain)."""
+    try:
+        req = urllib.request.Request(KILL_URL, headers={'User-Agent': UA})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.read().decode().strip().lower() == 'on'
+    except Exception as e:
+        log(f'kill switch check failed (assuming on): {e}')
+        return True
+
+
 def main():
     t0 = time.time()
     os.makedirs(STAGING, exist_ok=True)
@@ -210,7 +256,14 @@ def main():
     }
     json.dump(summary, open(SUMMARY_PATH, 'w'), indent=1)
     log(f'summary: {json.dumps(summary)[:400]}')
-    log('DONE (plugin decides chaining)')
+
+    # self-chain unless complete or killed
+    if summary['completed']:
+        log('BACKFILL COMPLETE — no chain')
+    elif not kill_switch_on():
+        log('kill switch OFF — no chain')
+    else:
+        chain_next()
     return 0
 
 
