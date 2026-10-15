@@ -1,0 +1,8 @@
+# Netlify function compute (S12) — repo-less site, deployed via netlify-cli.
+# Functions: audio backfill (background, self-chaining) + weekly site monitor.
+[build]
+  command = "true"
+  publish = "pub"
+
+[functions]
+  directory = "functions"
