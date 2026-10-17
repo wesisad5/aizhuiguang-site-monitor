@@ -1,5 +1,5 @@
 {
- "started": "2026-10-17T00:19:43.851Z",
+ "started": "2026-10-17T00:20:59.696Z",
  "targets": [
   {
    "file": "sfx-game-100.mp3",
@@ -10,7 +10,7 @@
    "bytes": 3805,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-63.mp3",
@@ -21,7 +21,7 @@
    "bytes": 3387,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-64.mp3",
@@ -32,7 +32,7 @@
    "bytes": 3387,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-66.mp3",
@@ -43,7 +43,7 @@
    "bytes": 3805,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-82.mp3",
@@ -54,7 +54,7 @@
    "bytes": 2969,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-83.mp3",
@@ -65,7 +65,7 @@
    "bytes": 2969,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-87.mp3",
@@ -76,7 +76,7 @@
    "bytes": 3805,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-game-95.mp3",
@@ -87,7 +87,7 @@
    "bytes": 2969,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   },
   {
    "file": "sfx-weapon-87.mp3",
@@ -98,7 +98,7 @@
    "bytes": 3845,
    "magic": "49 44 33 04",
    "audio": true,
-   "ok": false
+   "ok": true
   }
  ],
  "controls": [
@@ -125,109 +125,47 @@
    "ok": true
   }
  ],
- "pushed": [],
- "notfound": [],
- "errors": [],
- "unfetchable": [
+ "pushed": [
   {
    "file": "sfx-game-100.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-100.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3805",
-   "bytes": 3805,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3805
   },
   {
    "file": "sfx-game-63.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-63.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3387",
-   "bytes": 3387,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3387
   },
   {
    "file": "sfx-game-64.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-64.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3387",
-   "bytes": 3387,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3387
   },
   {
    "file": "sfx-game-66.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-66.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3805",
-   "bytes": 3805,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3805
   },
   {
    "file": "sfx-game-82.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-82.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "2969",
-   "bytes": 2969,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 2969
   },
   {
    "file": "sfx-game-83.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-83.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "2969",
-   "bytes": 2969,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 2969
   },
   {
    "file": "sfx-game-87.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-87.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3805",
-   "bytes": 3805,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3805
   },
   {
    "file": "sfx-game-95.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-95.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "2969",
-   "bytes": 2969,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 2969
   },
   {
    "file": "sfx-weapon-87.mp3",
-   "url": "https://aizhuiguang.tech/tools/sfx/sfx-weapon-87.mp3",
-   "http": 200,
-   "ct": "audio/mpeg",
-   "cl": "3845",
-   "bytes": 3845,
-   "magic": "49 44 33 04",
-   "audio": true,
-   "ok": false
+   "bytes": 3845
   }
  ],
- "elapsed_ms": 630
+ "notfound": [],
+ "errors": [],
+ "push_commit": "5e97349bc8ab6bfc465dcfc0794192e787af8b00",
+ "unfetchable": [],
+ "elapsed_ms": 4519
 }
