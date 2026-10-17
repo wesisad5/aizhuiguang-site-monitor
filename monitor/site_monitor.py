@@ -24,6 +24,7 @@ Stdlib only — no pip deps.
 """
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -150,20 +151,34 @@ def probe_direct() -> bool:
     return _DIRECT_OK
 
 
-FETCH_LOG = "/tmp/fetch-log.jsonl"
-
-
-_T0 = time.time()
+FETCH_LOG = os.environ.get("FETCH_LOG", "")
 
 
 def _log_fetch(url, ms, st, phase=""):
+    if not FETCH_LOG:
+        return
     try:
         with open(FETCH_LOG, "a") as _f:
             import json as _j
-            _f.write(_j.dumps({"el_s": round(time.time() - _T0, 1), "url": url,
-                               "ms": int(ms), "status": st, "phase": phase}) + "\n")
+            _f.write(_j.dumps({"url": url, "ms": int(ms), "status": st, "phase": phase}) + "\n")
     except Exception:
         pass
+
+
+# Global request pacing + bounded 429 handling.
+# The site rate-limits (~24 rapid requests -> 429) and the original
+# 15/30/45s-per-attempt backoff spiralled into 90-180s per throttled URL,
+# blowing the netlify 15-min build cap (found 2026-10-17, diag5: gaps
+# [0.7]*24 then 15.1/30.3/45.2 on the first 429).
+_MIN_INTERVAL_S = 1.2
+_LAST_REQ = [0.0]
+
+
+def _pace():
+    wait = _LAST_REQ[0] + _MIN_INTERVAL_S - time.time()
+    if wait > 0:
+        time.sleep(wait)
+    _LAST_REQ[0] = time.time()
 
 
 def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes]:
@@ -172,23 +187,28 @@ def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes
     EXCEPT 429 (translate-proxy rate limit) which retries with backoff."""
     attempts = [url] if probe_direct() else []
     attempts.append(_proxy_url(url))
+    rate_hits = 0
     for attempt in range(retries):
         for target in attempts:
+            _pace()
+            _t0 = time.time()
             try:
-                _t0 = time.time()
                 req = urllib.request.Request(target, headers={"User-Agent": UA, "Accept": "*/*"})
                 with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
-                    _body = r.read()
-                    _log_fetch(url, (time.time() - _t0) * 1000, r.status)
-                    return r.status, _body
+                    body = r.read()
+                    _log_fetch(target, (time.time() - _t0) * 1000, r.status)
+                    return r.status, body
             except urllib.error.HTTPError as e:
-                _log_fetch(url, (time.time() - _t0) * 1000, e.code, "http-error")
-                if e.code == 429:  # rate-limited — backoff, retry
-                    time.sleep(15 * (attempt + 1))
+                _log_fetch(target, (time.time() - _t0) * 1000, e.code, "http-error")
+                if e.code == 429:
+                    rate_hits += 1
+                    if rate_hits >= 3:
+                        return e.code, b""  # bounded: give up on this URL
+                    time.sleep(20)  # one pause, then continue the attempt loop
                     break
                 return e.code, b""
             except Exception as _e:
-                _log_fetch(url, (time.time() - _t0) * 1000, str(_e)[:40], "except")
+                _log_fetch(target, (time.time() - _t0) * 1000, str(_e)[:40], "except")
                 continue
     return 0, b""
 
@@ -311,7 +331,6 @@ def scan():
             script_stamps.setdefault(p, v)
         report["pages"][page] = {"status": st, "scripts": stamps,
                                  "inline": inline_blocks(html)}
-        time.sleep(0.5)
 
     # 3. data files (referenced + pinned)
     for p in PINNED_FILES + sorted(script_stamps):
@@ -324,7 +343,6 @@ def scan():
         else:
             report["files"][p] = {"sha256": "", "size": 0, "stamp": script_stamps.get(p, "")}
             report["errors"].append(f"data file fetch failed: {p} (status {st})")
-        time.sleep(0.3)
 
     return report
 
