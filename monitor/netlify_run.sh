@@ -25,6 +25,7 @@ if [ "${REFRESH_BASELINE:-0}" = "1" ]; then
   mkdir -p refresh-capture
   curl -s --max-time 60 -H "User-Agent: Mozilla/5.0"        -o refresh-capture/llms.txt "https://aizhuiguang.tech/llms.txt" || true
   ls -la refresh-capture/ || true
+  cp refresh-capture/* pub/ 2>/dev/null || true   # publish raw captures for pickup
   python3 monitor/commit_refresh.py || echo "(refresh commit failed — see above)"
   echo "baseline refresh $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
   exit 0
