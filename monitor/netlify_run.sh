@@ -1,30 +1,28 @@
 #!/usr/bin/env bash
-# DIAGNOSTIC 4: time sitemap.xml + r.jina.ai + z-ai paths individually.
+# DIAGNOSTIC 5: full attempt log (success+failure) with elapsed timestamps, 150s window.
 set -uo pipefail
 mkdir -p pub
-python3 - << 'PY' > pub/diag4.json 2> pub/diag4-err.txt
-import json, ssl, time, urllib.request, urllib.error
-UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) Chrome/126"}
-CTX = ssl.create_default_context(); CTX.check_hostname=False; CTX.verify_mode=ssl.CERT_NONE
-out = {}
-def timed(name, url, timeout):
-    t0 = time.time()
-    try:
-        req = urllib.request.Request(url, headers=UA)
-        with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
-            b = r.read()
-            out[name] = {"ok": True, "status": r.status, "ms": int((time.time()-t0)*1000), "bytes": len(b), "head": b[:80].decode("utf-8","replace")}
-    except urllib.error.HTTPError as e:
-        out[name] = {"ok": False, "http": e.code, "ms": int((time.time()-t0)*1000)}
-    except Exception as e:
-        out[name] = {"ok": False, "err": str(e)[:100], "ms": int((time.time()-t0)*1000)}
-timed("sitemap-direct", "https://aizhuiguang.tech/sitemap.xml", 30)
-timed("jina-sitemap", "https://r.jina.ai/https://aizhuiguang.tech/sitemap.xml", 30)
-timed("sitemap-2nd", "https://aizhuiguang.tech/sitemap.xml", 30)
-timed("page-again", "https://aizhuiguang.tech/tools/manju.html", 30)
-import shutil
-out["z_ai_present"] = bool(shutil.which("z-ai"))
+rm -f /tmp/fetch-log.jsonl
+timeout 150 python3 monitor/site_monitor.py --report-only > /tmp/scan-out.txt 2>&1
+RC=$?
+cp /tmp/fetch-log.jsonl pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
+head -c 800 /tmp/scan-out.txt > pub/scan-out-head.txt 2>/dev/null || true
+python3 - << 'PY' > pub/diag5.json
+import json
+log = [json.loads(l) for l in open("pub/fetch-log.jsonl") if l.strip()]
+gaps = []
+prev = 0.0
+for f in log:
+    gaps.append(round(f["el_s"] - prev, 1))
+    prev = f["el_s"]
+out = {
+  "n_attempts": len(log),
+  "last_el_s": log[-1]["el_s"] if log else 0,
+  "gaps_s": gaps,
+  "failures": [f for f in log if f["status"] != 200],
+  "log": log,
+}
 print(json.dumps(out))
 PY
-cat pub/diag4.json || cat pub/diag4-err.txt
+cat pub/diag5.json | head -c 300
 exit 0

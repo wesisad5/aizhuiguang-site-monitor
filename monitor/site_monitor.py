@@ -153,11 +153,15 @@ def probe_direct() -> bool:
 FETCH_LOG = "/tmp/fetch-log.jsonl"
 
 
-def _log_fetch(url, ms, st):
+_T0 = time.time()
+
+
+def _log_fetch(url, ms, st, phase=""):
     try:
         with open(FETCH_LOG, "a") as _f:
             import json as _j
-            _f.write(_j.dumps({"url": url, "ms": int(ms), "status": st}) + "\n")
+            _f.write(_j.dumps({"el_s": round(time.time() - _T0, 1), "url": url,
+                               "ms": int(ms), "status": st, "phase": phase}) + "\n")
     except Exception:
         pass
 
@@ -178,11 +182,13 @@ def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes
                     _log_fetch(url, (time.time() - _t0) * 1000, r.status)
                     return r.status, _body
             except urllib.error.HTTPError as e:
+                _log_fetch(url, (time.time() - _t0) * 1000, e.code, "http-error")
                 if e.code == 429:  # rate-limited — backoff, retry
                     time.sleep(15 * (attempt + 1))
                     break
                 return e.code, b""
-            except Exception:
+            except Exception as _e:
+                _log_fetch(url, (time.time() - _t0) * 1000, str(_e)[:40], "except")
                 continue
     return 0, b""
 
