@@ -1,2 +1,6 @@
 __pycache__/
 .probe-result.json
+
+# Local Netlify folder
+.netlify
+.netlify/
