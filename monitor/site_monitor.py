@@ -89,6 +89,8 @@ WATCH_PAGES = [
 PINNED_FILES = [
     "/tools/aizg-mini.js",
     "/tools/drama-db.js",
+    "/assets/aizg-agent.js",   # site AI-agent guide (since 20261013)
+    "/llms.txt",               # site agent instruction file (since 20261013)
 ]
 
 SCRIPT_RE = re.compile(r'<script[^>]*\bsrc="([^"]+)"[^>]*>')

@@ -14,7 +14,23 @@ SCAN_BUDGET_S="${SCAN_BUDGET_S:-660}"
 mkdir -p pub
 rm -f "$FETCH_LOG"
 
-timeout "$SCAN_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
+timeout "$SCAN_BUDGET_S" # REFRESH mode (REFRESH_BASELINE=1): re-baseline from a direct netlify scan,
+# commit the baseline + captured raw files back to the repos, exit clean.
+if [ "${REFRESH_BASELINE:-0}" = "1" ]; then
+  echo "refresh mode: re-scanning for a new baseline (direct egress)"
+  timeout "${SCAN_BUDGET_S}" python3 monitor/site_monitor.py --update > /tmp/scan-report.txt 2>&1
+  RC=$?
+  cat /tmp/scan-report.txt
+  cp "$FETCH_LOG" pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
+  mkdir -p refresh-capture
+  curl -s --max-time 60 -H "User-Agent: Mozilla/5.0"        -o refresh-capture/llms.txt "https://aizhuiguang.tech/llms.txt" || true
+  ls -la refresh-capture/ || true
+  python3 monitor/commit_refresh.py || echo "(refresh commit failed — see above)"
+  echo "baseline refresh $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
+  exit 0
+fi
+
+python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
 RC=$?
 cat /tmp/scan-report.txt
 cp "$FETCH_LOG" pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
