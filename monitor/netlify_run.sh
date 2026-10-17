@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 # netlify_run.sh — weekly monitor build entry (netlify lane).
 #
-# 1. runs monitor/site_monitor.py (paced fetches; direct egress, proxy fallback)
+# The scan is bounded at SCAN_BUDGET_S (default 660s) so the BUILD itself can
+# never hit the 15-min netlify cap — a partial scan still publishes its
+# fetch-log + report for diagnosis.
+#
+# 1. runs monitor/site_monitor.py (adaptive pacing; direct egress, proxy fallback)
 # 2. drift  -> file/update the GitHub drift issue (emails the repo owner) + exit 1
-#    clean  -> green build (heartbeat, no email noise)
-# 3. FETCH_LOG env -> per-attempt log (published to pub/ when set for debugging)
+#    clean  -> green build (weekly heartbeat, no email noise)
 set -uo pipefail
 export FETCH_LOG="${FETCH_LOG:-/tmp/fetch-log.jsonl}"
+SCAN_BUDGET_S="${SCAN_BUDGET_S:-660}"
 mkdir -p pub
+rm -f "$FETCH_LOG"
 
-python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
+timeout "$SCAN_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
 RC=$?
 cat /tmp/scan-report.txt
 cp "$FETCH_LOG" pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
+echo "scan rc=$RC budget=${SCAN_BUDGET_S}s" >> pub/fetch-log.jsonl
 
 STATUS=$(python3 - << 'PY'
 import json
@@ -26,11 +32,11 @@ PY
 
 if [ "$STATUS" = "clean" ] || [ "$STATUS" = "baseline-updated" ]; then
   echo "weekly monitor: $STATUS"
-  echo "$STATUS $(date -u +%FT%TZ)" > pub/status.txt
+  echo "$STATUS $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
   exit 0
 fi
 
-echo "weekly monitor: DRIFT DETECTED ($STATUS) — filing issue"
+echo "weekly monitor: DRIFT DETECTED ($STATUS, scan rc=$RC) — filing issue"
 python3 monitor/file_drift_issue.py || echo "(issue filing failed — see report above)"
-echo "drift $(date -u +%FT%TZ)" > pub/status.txt
+echo "drift $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
 exit 1

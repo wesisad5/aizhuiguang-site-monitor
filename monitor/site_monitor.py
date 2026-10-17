@@ -165,20 +165,34 @@ def _log_fetch(url, ms, st, phase=""):
         pass
 
 
-# Global request pacing + bounded 429 handling.
-# The site rate-limits (~24 rapid requests -> 429) and the original
-# 15/30/45s-per-attempt backoff spiralled into 90-180s per throttled URL,
-# blowing the netlify 15-min build cap (found 2026-10-17, diag5: gaps
-# [0.7]*24 then 15.1/30.3/45.2 on the first 429).
-_MIN_INTERVAL_S = 1.2
+# Adaptive global pacing + bounded 429 handling.
+# The site burst-rate-limits (~24-50 rapid requests -> 429, window unknown,
+# observed 2026-10-17: 24 req in 16s tripped it; 1.5s/req also eventually
+# tripped it). Fixed per-URL backoff spiralled (90-180s per throttled URL,
+# per-URL counters multiply across the remaining queue). This version:
+#   - global min-interval that DOUBLES on each 429 event (1.2 -> up to 6s)
+#   - global cooldown after a 429 (60s * escalation, shared by all fetches)
+#   - per-URL: at most 3 rate-limited attempts, then record + move on
+# A full scan (~90 URLs) at 3s/req = ~5 min — under the netlify 15-min cap.
+_MIN_INTERVAL_S = [1.2]
+_COOLDOWN_UNTIL = [0.0]
+_RATE_EVENTS = [0]
 _LAST_REQ = [0.0]
 
 
 def _pace():
-    wait = _LAST_REQ[0] + _MIN_INTERVAL_S - time.time()
+    wait = max(_LAST_REQ[0] + _MIN_INTERVAL_S[0],
+               _COOLDOWN_UNTIL[0]) - time.time()
     if wait > 0:
         time.sleep(wait)
     _LAST_REQ[0] = time.time()
+
+
+def _throttled():
+    """Register a 429: escalate pace + set a global cooldown."""
+    _RATE_EVENTS[0] += 1
+    _MIN_INTERVAL_S[0] = min(_MIN_INTERVAL_S[0] * 2, 6.0)
+    _COOLDOWN_UNTIL[0] = time.time() + 60 * min(_RATE_EVENTS[0], 3)
 
 
 def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes]:
@@ -204,8 +218,8 @@ def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes
                     rate_hits += 1
                     if rate_hits >= 3:
                         return e.code, b""  # bounded: give up on this URL
-                    time.sleep(20)  # one pause, then continue the attempt loop
-                    break
+                    _throttled()
+                    break  # global cooldown applies at the next _pace()
                 return e.code, b""
             except Exception as _e:
                 _log_fetch(target, (time.time() - _t0) * 1000, str(_e)[:40], "except")
