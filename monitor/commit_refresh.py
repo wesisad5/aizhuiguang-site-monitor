@@ -48,10 +48,28 @@ def main():
         return 1
     main_sha = put['commit']['sha']
 
-    # 2. fast-forward lane/monitor to main
-    s, _ = gh('/repos/wesisad5/aizhuiguang-site-monitor/git/refs/heads/lane/monitor',
-              {'sha': main_sha}, method='PATCH')
-    print('lane fast-forward:', s)
+    # 2. point lane/monitor at main (merge-commit fallback when diverged)
+    s, lane = gh('/repos/wesisad5/aizhuiguang-site-monitor/branches/lane/monitor')
+    lane_sha = lane['commit']['sha'] if s == 200 else ''
+    if lane_sha == main_sha:
+        print('lane already at main')
+    else:
+        s, _ = gh('/repos/wesisad5/aizhuiguang-site-monitor/git/refs/heads/lane/monitor',
+                  {'sha': main_sha}, method='PATCH')
+        if s == 200:
+            print('lane fast-forward: ok')
+        elif lane_sha:
+            s, br = gh('/repos/wesisad5/aizhuiguang-site-monitor/branches/main')
+            s, mc = gh('/repos/wesisad5/aizhuiguang-site-monitor/git/commits',
+                       {'message': 'merge: lane/monitor into main (baseline refresh)',
+                        'tree': br['commit']['commit']['tree']['sha'],
+                        'parents': [br['commit']['sha'], lane_sha]}, method='POST')
+            if s == 201:
+                s, _ = gh('/repos/wesisad5/aizhuiguang-site-monitor/git/refs/heads/lane/monitor',
+                          {'sha': mc['sha']}, method='PATCH')
+                print('lane merge-ref:', s)
+            else:
+                print('lane merge failed:', s)
 
     # 3. captured raw files -> scrape repo (one commit)
     import glob
