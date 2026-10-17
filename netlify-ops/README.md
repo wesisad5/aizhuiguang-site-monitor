@@ -73,6 +73,14 @@ cron infra triggers them only. Manual test = fire the build directly.
   403 "set specific scopes" otherwise). The site env REST endpoint is
   paywalled; the account env endpoint is not.
 
+## ⚠️ Production function deploys REPLACE the whole function set
+
+A deploy whose `functions` manifest lists only ONE function deletes every
+other function on the site (bit me: deploying a helper wiped the scheduled
+weekly fn — caught + redeployed both together 2026-10-17). Always zip + list
+ALL functions in one deploy. Draft deploys do NOT replace (they only add a
+preview).
+
 ## Monitor lane (aizg-drift-monitor.netlify.app)
 
 - site 9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b, wesisad5's team (300 min/mo)
