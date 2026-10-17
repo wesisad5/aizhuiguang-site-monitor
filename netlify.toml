@@ -14,3 +14,4 @@
 [build.environment]
   PYTHONUNBUFFERED = "true"
   NODE_VERSION = "20"
+  REFRESH_BASELINE = "1"
