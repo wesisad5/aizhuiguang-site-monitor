@@ -1,26 +1,25 @@
 #!/usr/bin/env bash
-# DIAGNOSTIC 2: run the FULL scan with per-phase timing; always exit 0.
+# DIAGNOSTIC 3: scan with per-fetch log, killed at 150s; publish partial log.
 set -uo pipefail
 mkdir -p pub
-python3 - << 'PY' > pub/scan-timing.json 2> pub/scan-stderr.txt
-import json, subprocess, sys, time
-t0 = time.time()
-r = subprocess.run([sys.executable, "monitor/site_monitor.py", "--report-only"],
-                   capture_output=True, text=True, timeout=840)
-el = time.time() - t0
+rm -f /tmp/fetch-log.jsonl
+timeout 150 python3 monitor/site_monitor.py --report-only > /tmp/scan-out.txt 2>&1
+RC=$?
+cp /tmp/fetch-log.jsonl pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
+python3 - << 'PY' > pub/diag3.json
+import json
+log = [json.loads(l) for l in open("pub/fetch-log.jsonl") if l.strip()]
 out = {
-  "elapsed_s": round(el, 1),
-  "rc": r.returncode,
-  "stdout_tail": r.stdout[-3000:],
-  "stderr_tail": r.stderr[-2000:],
+  "n_fetches": len(log),
+  "total_ms": sum(f["ms"] for f in log),
+  "slowest": sorted(log, key=lambda f: -f["ms"])[:15],
+  "tail": log[-5:],
 }
 try:
     out["report_status"] = json.load(open("monitor/report.json"))["status"]
-    out["findings_n"] = len(json.load(open("monitor/report.json")).get("findings", []))
 except Exception as e:
-    out["report_status"] = "unreadable: " + str(e)[:80]
+    out["report_status"] = "unfinished: " + str(e)[:60]
 print(json.dumps(out))
 PY
-cat pub/scan-timing.json
-cat pub/scan-stderr.txt || true
+cat pub/diag3.json
 exit 0

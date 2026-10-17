@@ -150,6 +150,18 @@ def probe_direct() -> bool:
     return _DIRECT_OK
 
 
+FETCH_LOG = "/tmp/fetch-log.jsonl"
+
+
+def _log_fetch(url, ms, st):
+    try:
+        with open(FETCH_LOG, "a") as _f:
+            import json as _j
+            _f.write(_j.dumps({"url": url, "ms": int(ms), "status": st}) + "\n")
+    except Exception:
+        pass
+
+
 def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes]:
     """Direct (when the probe says it works — e.g. GitHub runners), proxy fallback.
     Returns (status, body). A real HTTP error status is returned as-is (no retry),
@@ -159,9 +171,12 @@ def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes
     for attempt in range(retries):
         for target in attempts:
             try:
+                _t0 = time.time()
                 req = urllib.request.Request(target, headers={"User-Agent": UA, "Accept": "*/*"})
                 with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
-                    return r.status, r.read()
+                    _body = r.read()
+                    _log_fetch(url, (time.time() - _t0) * 1000, r.status)
+                    return r.status, _body
             except urllib.error.HTTPError as e:
                 if e.code == 429:  # rate-limited — backoff, retry
                     time.sleep(15 * (attempt + 1))
