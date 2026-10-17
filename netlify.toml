@@ -1,0 +1,16 @@
+# aizg weekly monitor — netlify build lane (S12 alerting).
+#
+# This site is Git-connected to the PUBLIC monitor repo, LANE BRANCH ONLY
+# (never the default branch — branch deploys stay 0-credit). The weekly
+# trigger is the scheduled function on the same site (functions/weekly.mjs,
+# cron Mon 09:00 UTC) which POSTs /sites/{id}/builds {"branch":"lane/monitor"}.
+#
+# Build: python3 site scan → on drift, open/update the GitHub drift issue
+# (that emails the repo owner) + fail the build (netlify deploy notification).
+[build]
+  command = "bash monitor/netlify_run.sh"
+  publish = "pub"
+
+[build.environment]
+  PYTHONUNBUFFERED = "true"
+  NODE_VERSION = "20"
