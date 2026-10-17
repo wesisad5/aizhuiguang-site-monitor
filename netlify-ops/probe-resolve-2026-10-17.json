@@ -1,0 +1,233 @@
+{
+ "started": "2026-10-17T00:19:43.851Z",
+ "targets": [
+  {
+   "file": "sfx-game-100.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-100.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-63.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-63.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3387",
+   "bytes": 3387,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-64.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-64.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3387",
+   "bytes": 3387,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-66.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-66.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-82.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-82.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-83.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-83.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-87.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-87.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-95.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-95.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-weapon-87.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-weapon-87.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3845",
+   "bytes": 3845,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  }
+ ],
+ "controls": [
+  {
+   "file": "sfx-game-62.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-62.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "4641",
+   "bytes": 4641,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": true
+  },
+  {
+   "file": "sfx-weapon-01.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-weapon-01.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "11746",
+   "bytes": 11746,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": true
+  }
+ ],
+ "pushed": [],
+ "notfound": [],
+ "errors": [],
+ "unfetchable": [
+  {
+   "file": "sfx-game-100.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-100.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-63.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-63.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3387",
+   "bytes": 3387,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-64.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-64.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3387",
+   "bytes": 3387,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-66.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-66.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-82.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-82.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-83.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-83.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-87.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-87.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3805",
+   "bytes": 3805,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-game-95.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-game-95.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "2969",
+   "bytes": 2969,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  },
+  {
+   "file": "sfx-weapon-87.mp3",
+   "url": "https://aizhuiguang.tech/tools/sfx/sfx-weapon-87.mp3",
+   "http": 200,
+   "ct": "audio/mpeg",
+   "cl": "3845",
+   "bytes": 3845,
+   "magic": "49 44 33 04",
+   "audio": true,
+   "ok": false
+  }
+ ],
+ "elapsed_ms": 630
+}
