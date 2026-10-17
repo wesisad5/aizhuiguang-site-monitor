@@ -50,16 +50,26 @@ Stdlib only. Direct HTTPS first, translate.goog proxy fallback (the site resolve
 IPv6-only and hangs unknown IPv4 egress — sandboxes need the proxy; GitHub
 runners go direct).
 
-## ⚠️ One-time activation needed (pick either provider)
+## ✅ LIVE — netlify weekly lane (since 2026-10-17)
 
-Both CI runner paths are fully wired but blocked by account-level checks the
-sandbox cannot perform. Activate ONE:
+The alert pipeline runs on **netlify build compute** (no GHA / no GitLab CI
+needed — both were account-blocked; see netlify-ops/README.md for the full
+recipes). First real fire: 2026-10-17, issue #1 (lightcut AI-agent tooling
+drift) — detected, synced, and closed same-day.
 
-| Provider | Status | One-time action |
-|---|---|---|
-| **GitLab CI** (recommended — schedule + issue alerting wired) | pipeline blocked: "Identity verification required" | log in → https://gitlab.com → complete identity verification (Settings). The weekly schedule (Mon 09:00 UTC, id 4488296) then runs automatically. ~10 min/week ≪ 400 free minutes/month. |
-| **GitHub Actions** (workflow committed here + in the private scrape repo) | jobs die at startup, 0 steps, account-wide (even trivial echo workflows in public repos) | add/verify a payment method at github.com/settings/billing — Actions on THIS public repo is free. |
+| Piece | Where |
+|---|---|
+| Weekly trigger | scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo, ~5 min/wk) |
+| Scan build | git-connected to the PUBLIC GitLab mirror of this repo, branch `lane/monitor` (anonymous HTTPS clone — GitHub connections need deploy keys and fail) |
+| Drift alert | `monitor/file_drift_issue.py` — opens/comments the 🔔 issue (emails the repo owner) + the build fails (netlify deploy notification). Clean scans = green heartbeat builds |
+| Manual run | `POST /sites/9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b/builds {"branch":"lane/monitor"}` with the netlify PAT, or `python3 monitor/site_monitor.py` locally |
+| Re-baseline after a sync | `REFRESH_BASELINE=1` site env (account env API) → fire a build → it re-scans direct, commits monitor/baseline.json back to main + re--points the lane, and captures raw files (llms.txt) — then DELETE the env var |
 
-The scanner itself is fully tested (30/30 data files hashed, 81 sitemap URLs,
-112 inline blocks, 0 fetch errors via the proxy route) and can be run manually
-anytime: `python3 monitor/site_monitor.py`.
+Scanner notes (2026-10-17): the site burst-rate-limits (~24-50 rapid requests →
+429) — the scanner uses adaptive global pacing (1.2s doubling on 429, global
+cooldowns) and a 660s scan budget so the build can never hit the 15-min netlify
+cap. Pinned files now include `/assets/aizg-agent.js` and `/llms.txt`.
+
+The old GHA workflow (.github/workflows/site-monitor.yml) and GitLab CI
+(.gitlab-ci.yml) remain committed as inert fallbacks if their account blocks
+are ever lifted.
