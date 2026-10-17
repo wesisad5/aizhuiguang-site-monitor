@@ -11,15 +11,20 @@
    "size": 68954,
    "stamp": ""
   },
+  "/assets/aizg-agent.js": {
+   "sha256": "d5f97e1413e2fabba38691f98e48f880e4538462a9f6dc922239302f4d0c4cbb",
+   "size": 6444,
+   "stamp": ""
+  },
   "/assets/aizg-consent.js": {
    "sha256": "c8a65e07525b981c675b27bbfda97e43937e14c4762660b47fa10a8c60f70c5c",
    "size": 6663,
    "stamp": ""
   },
   "/assets/aizg-nav.js": {
-   "sha256": "c639f9af7bb521503e017f1b0b1726391b6204910260650e0ebbfc88d857ac8c",
-   "size": 18643,
-   "stamp": "20260903"
+   "sha256": "8cdd56cb675984de2cf85ca1aedd738a95cc49e5da08f4d55c352df308cd1e3a",
+   "size": 19056,
+   "stamp": "20261013"
   },
   "/assets/aizg-timer-float.js": {
    "sha256": "7807a822d5f1ec74956f1c5d4eef3e9b71bc31f2b35e0e32ddb43c994c5f50eb",
@@ -40,6 +45,11 @@
    "sha256": "e21be46dc719b08eadcca5c1805b8e14a7317834dd5de2d1915fc957dada5187",
    "size": 55367,
    "stamp": "2026060904"
+  },
+  "/llms.txt": {
+   "sha256": "aaa0c7d1a2bafb53b59c322474ba55d4eb7985f95a903e631fb2295de82b8eb0",
+   "size": 22807,
+   "stamp": ""
   },
   "/tools/aizg-mini.js": {
    "sha256": "112cee9be996575e2b684fad75a861ead2086cedc10464b6b662d83eab33d877",
@@ -142,14 +152,14 @@
    "stamp": "20261011a"
   },
   "/tools/lightcut-presets.js": {
-   "sha256": "47f0586b35d47dda12a190fbb8d6a10e271f69703db50305c6dedef6379183b2",
-   "size": 27113,
+   "sha256": "8c520d85068849d46fec61415113a7fdba2140c4ad09fa3e57b6bd0507ac3ebb",
+   "size": 27549,
    "stamp": "20261004b"
   },
   "/tools/lightcut-site-tools.js": {
-   "sha256": "a675fe9d88b9c487bf7b70ccbd02ca5fa2f22e3f60419ff58b438e687e002f5d",
-   "size": 46301,
-   "stamp": "20260914i"
+   "sha256": "ede80230820ac7e43b73bde4ebdaccfb474ee4bacc5c9f03c5f06259d8ae080f",
+   "size": 50271,
+   "stamp": "20261013b"
   }
  },
  "pages": {
@@ -158,6 +168,10 @@
     {
      "sha256": "0b03a505445636dc2b5b641a25c94c43aba394f1e5748cc6508edabd91c20599",
      "size": 582
+    },
+    {
+     "sha256": "6448928e08c4dc1b3021c73d58ef6698555aac95c3d36fe0b28771d72d571758",
+     "size": 1092
     },
     {
      "sha256": "550d47b5477890548e82cb691f970ff611ad879e546056b5b7fb2719b43b44c3",
@@ -191,7 +205,7 @@
    "scripts": {
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/assets/aizg-timer-float.js": ""
    },
    "status": 200
@@ -231,7 +245,7 @@
    "scripts": {
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -315,7 +329,7 @@
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -394,7 +408,7 @@
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -413,7 +427,7 @@
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -453,7 +467,7 @@
    "scripts": {
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -471,7 +485,7 @@
    "scripts": {
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -484,7 +498,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -521,7 +535,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -538,7 +552,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -573,7 +587,7 @@
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -591,7 +605,7 @@
    "scripts": {
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/aizg-studio.js": "1"
    },
    "status": 200
@@ -606,7 +620,7 @@
    "scripts": {
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/assets/daily-hero.js": "20260913a",
     "/tools/daily-cam.js": "20260824a",
     "/tools/daily-dance.js": "20260824a",
@@ -633,7 +647,7 @@
    "scripts": {
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/dance-bgm-audio.js": "20260816"
    },
    "status": 200
@@ -647,7 +661,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -660,7 +674,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -685,7 +699,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/jingdi-cast-20260910.js": "20260910",
     "/tools/jingdi-cast.js": "20260817h",
     "/tools/jingdi-data-v195-angles.js": "20260828f"
@@ -702,7 +716,7 @@
    "scripts": {
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -721,8 +735,8 @@
      "size": 998
     },
     {
-     "sha256": "f1b65317eaced7b3a59e79ee36ebd2609dcd9efc1fc8402eabf987b199f27d1a",
-     "size": 1125
+     "sha256": "2009b4758e8f67af64c585deb56f5c6cd893bc861e593ef0456d8a9dbc63a6f6",
+     "size": 1136
     },
     {
      "sha256": "dead0e64ccab07e243410438558fa5d228a2ddbd2a51d54af1979a42af6e0a45",
@@ -745,8 +759,8 @@
      "size": 3350
     },
     {
-     "sha256": "e653535d6bba4e0960b5ca8dd9820a16953755ab8193c2eb4b20260611899c3c",
-     "size": 3657
+     "sha256": "78b564ffa262b2e60e714696ad1f8efeaf913767a9461b7b16408a8d40912938",
+     "size": 3690
     },
     {
      "sha256": "257406c38c070423cba5c6ad281b65f9712540deee56b9a78faa4cf22ef0352c",
@@ -781,18 +795,18 @@
      "size": 355319
     },
     {
-     "sha256": "1aa68036f82606c706be3ab4833c38caee4f1cad08499a2d7057a37c47805a85",
-     "size": 619362
+     "sha256": "9648ac65639d6e790d4bedf84028c70e3b579c5792284ce0402821503cdb8486",
+     "size": 619453
     }
    ],
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/lightcut-beatstop.js": "20261011a",
     "/tools/lightcut-presets.js": "20261004b",
-    "/tools/lightcut-site-tools.js": "20260914i"
+    "/tools/lightcut-site-tools.js": "20261013b"
    },
    "status": 200
   },
@@ -805,7 +819,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/assets/longshot-filmstrip.js": "20260912"
    },
    "status": 200
@@ -819,7 +833,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -844,7 +858,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/bgm-library-20260902.js": ""
    },
    "status": 200
@@ -864,7 +878,7 @@
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -918,7 +932,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903",
+    "/assets/aizg-nav.js": "20261013",
     "/tools/aizg-mini.js": "20260906d",
     "/tools/drama-db.js": "20261002a"
    },
@@ -933,7 +947,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -950,7 +964,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -963,7 +977,7 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   },
@@ -980,12 +994,12 @@
    ],
    "scripts": {
     "/assets/aizg-consent.js": "",
-    "/assets/aizg-nav.js": "20260903"
+    "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   }
  },
- "scannedAt": "2026-10-13T03:29:14+00:00",
+ "scannedAt": "2026-10-17T02:57:27+00:00",
  "sitemap": [
   "https://aizhuiguang.tech/",
   "https://aizhuiguang.tech/gallery/",
