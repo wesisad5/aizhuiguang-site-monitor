@@ -1,37 +1,36 @@
 #!/usr/bin/env bash
-# netlify_run.sh — weekly monitor build entry (netlify lane).
-#
-# 1. runs monitor/site_monitor.py (stdlib; direct egress, proxy fallback)
-# 2. on drift: opens/updates the "site drift detected" issue in the public
-#    monitor repo via the GitHub API (GH_PAT env) — that emails the repo
-#    owner — then exits 1 so the build FAILS (netlify deploy notification).
-# 3. on clean scan: exit 0 (green build = heartbeat, visible in the deploys
-#    list; no email noise).
+# DIAGNOSTIC build: probe egress + time fetches; ALWAYS exit 0 so pub/ publishes.
 set -uo pipefail
-
-MON="monitor/site_monitor.py"
-python3 "$MON" --report-only > /tmp/scan-report.txt 2>&1
-RC=$?
-cat /tmp/scan-report.txt
-
-STATUS=$(python3 - << 'PY'
-import json
+mkdir -p pub
+python3 - << 'PY' > pub/egress-report.json 2>pub/egress-stderr.txt
+import json, ssl, time, urllib.request, urllib.error
+SITE = "https://aizhuiguang.tech"
+UA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) Chrome/126"}
+CTX = ssl.create_default_context(); CTX.check_hostname=False; CTX.verify_mode=ssl.CERT_NONE
+out = {}
+# 1. direct probe
+t0=time.time()
 try:
-    d = json.load(open("monitor/report.json"))
-    print(d.get("status", "error"))
+    req = urllib.request.Request(SITE + "/", headers=UA)
+    with urllib.request.urlopen(req, timeout=10, context=CTX) as r:
+        body = r.read()
+        out["direct"] = {"ok": True, "status": r.status, "ms": int((time.time()-t0)*1000), "bytes": len(body)}
 except Exception as e:
-    print("error")
+    out["direct"] = {"ok": False, "err": str(e)[:100], "ms": int((time.time()-t0)*1000)}
+# 2. proxy timing (2 pages + 1 data file)
+PROXY = "https://aizhuiguang-tech.translate.goog"
+for name, path in [("proxy-page","/tools/manju.html"), ("proxy-root","/"), ("proxy-data","/tools/aizg-mini.js")]:
+    t0=time.time()
+    try:
+        req = urllib.request.Request(f"{PROXY}{path}?_x_tr_sl=auto&_x_tr_tl=en", headers=UA)
+        with urllib.request.urlopen(req, timeout=45, context=CTX) as r:
+            b = r.read()
+            out[name] = {"ok": True, "status": r.status, "ms": int((time.time()-t0)*1000), "bytes": len(b)}
+    except urllib.error.HTTPError as e:
+        out[name] = {"ok": False, "http": e.code, "ms": int((time.time()-t0)*1000)}
+    except Exception as e:
+        out[name] = {"ok": False, "err": str(e)[:80], "ms": int((time.time()-t0)*1000)}
+print(json.dumps(out))
 PY
-)
-
-if [ "$STATUS" = "ok" ]; then
-  echo "weekly monitor: site unchanged (clean heartbeat)"
-  mkdir -p pub && echo "ok $(date -u +%FT%TZ)" > pub/status.txt
-  exit 0
-fi
-
-echo "weekly monitor: DRIFT DETECTED — filing issue"
-python3 monitor/file_drift_issue.py || echo "(issue filing failed — see report above)"
-
-mkdir -p pub && echo "drift $(date -u +%FT%TZ)" > pub/status.txt
-exit 1
+cat pub/egress-report.json || cat pub/egress-stderr.txt
+exit 0
