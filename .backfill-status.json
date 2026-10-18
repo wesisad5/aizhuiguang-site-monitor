@@ -1,18 +1,8 @@
 {
- "kind": "COMPLETE",
- "ts": "2026-10-17T00:21:44.138853+00:00",
- "completed": true,
- "remaining": 0,
+ "started": "2026-10-18T05:05:03.607Z",
  "total_wanted": 1319,
- "note": "S12 audio backfill fully complete. Final 9 files (8 sfx-game + sfx-weapon-87) were genuine sub-second clips of 2969-3845 bytes that the chain's MIN_BYTES=4096 heuristic wrongly rejected; probed via a netlify draft-deploy function (HTTP 200, audio/mpeg, ID3 magic) and pushed in commit 5e97349. Path-prefix bug (538 files.json entries missing sfx//bgm/ prefixes) fixed; 107 misfiled sfx + jiuchong relocated and 421 byte-identical root duplicates removed in scrape-repo commit 9478c49.",
- "final_counts": {
-  "audio/sfx": 1207,
-  "audio/bgm": 890,
-  "audio/library-20260902": 630,
-  "audio/influencer": 151,
-  "audio/bgm-quke": 58,
-  "audio/bgmlib": 200,
-  "audio root (manifest only)": 1,
-  "total": 3137
- }
+ "missing_before": 0,
+ "completed": true,
+ "kind": "COMPLETE",
+ "ts": "2026-10-18T05:05:10.067Z"
 }
