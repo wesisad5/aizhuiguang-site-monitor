@@ -4,17 +4,29 @@ Proven patterns from this session (2026-10-17). All API-first, no CLI dependency
 (netlify-cli's hasha worker threads EAGAIN in the Z-sandbox; the CLI works
 elsewhere but the raw API is deterministic here).
 
-## Fleet facts (checked 2026-10-17)
+## Credentials (S13 — 2026-10-18)
 
-- **~86 of 90 PATs are LEGACY plans: 300 build-minutes each, used 0.** Only 4
-  accounts are on new credit pricing: dollartree1994 (depleted), cafesoleil319,
-  dennysanpablo, mark-zimmern08/MZ08 (depleted — "credit usage exceeded" 403 on
-  deploys). Use LEGACY accounts for builds; new-pricing accounts are exhausted.
+**No PATs are pasted in prompts anymore.** The full 90-key Netlify fleet +
+GitHub/GitLab PATs + the site→owner map live in the private credential vault:
+**`wesisad5/aizhuiguang-secrets`** (GitHub, private — `secrets/creds.json.b64`
++ `creds.py`/`creds.sh` loaders + `probe_fleet.py` + `netlify_ops.py`),
+mirrored on GitLab (87774139, plaintext `plain/creds.json` lane). Recovery:
+clone the vault with any wesisad5 GitHub PAT, then
+`eval "$(python3 secrets/creds.py env)"`. NEVER echo token material into
+this public repo — reference the vault instead.
+
+## Fleet facts (checked 2026-10-18 — full probe in the vault's fleet_map.json)
+
+- **89/90 PATs alive** (ariellebridget3 → 401). ~86 LEGACY plans: 300 unused
+  build-minutes each. Only 4 accounts on new credit pricing: dollartree1994
+  (depleted), cafesoleil319, dennysanpablo, mark-zimmern08/MZ08 (depleted —
+  "credit usage exceeded" 403 on deploys). Use LEGACY accounts for builds.
 - **Depleted legacy accounts still allow DRAFT deploys** (0 credits) — including
   draft deploys that serve functions at the `https://<deploy-id>--<site>.netlify.app`
   URL. This is how the 9-file probe ran on the credit-dead dollartree1994 site.
-- wesisad5's team account (nfp_b7u8yfjiRs…, labeled @wesisadora005 in the fleet
-  list) hosts aizg-vault and the new aizg-drift-monitor site: 300 fresh minutes.
+- wesisadora005 (vault lookup: `python3 secrets/creds.py netlify wesisadora005`)
+  hosts aizg-vault, aizg-drift-monitor, and the aix-media-* sites: 300 fresh
+  minutes. A build was triggered from vault creds on 2026-10-18 (HTTP 200).
 - Site names are GLOBAL (one namespace across all accounts).
 
 ## The 9-file SFX probe (audio backfill completion)
