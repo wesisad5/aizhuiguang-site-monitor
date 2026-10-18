@@ -47,8 +47,8 @@
    "stamp": "2026060904"
   },
   "/llms.txt": {
-   "sha256": "aaa0c7d1a2bafb53b59c322474ba55d4eb7985f95a903e631fb2295de82b8eb0",
-   "size": 22807,
+   "sha256": "406e1da2e0510fefafb38c10e3e7dd01204748cc21c5bef4009ac7061556fe1c",
+   "size": 22808,
    "stamp": ""
   },
   "/tools/aizg-mini.js": {
@@ -613,8 +613,8 @@
   "/tools/daily.html": {
    "inline": [
     {
-     "sha256": "f7ff584462b3eb960ed0d7dbe16296e410873be27fe2958e4d77a7164b11c1f0",
-     "size": 98342
+     "sha256": "103e1e4c3b9f83a091dc2b2f57f9248c75bf420cb86571c7ee466ce1cee58a82",
+     "size": 100304
     }
    ],
    "scripts": {
@@ -775,28 +775,28 @@
      "size": 14875
     },
     {
-     "sha256": "23fcf702c18e9bf88e43ce49347d0496d78ff34ca99818cfae33cb5fd3839b6e",
-     "size": 18968
-    },
-    {
-     "sha256": "21f3701d3bab29bc695cb753ea959da4e4eb1f52f75ebbfd721042751bcb6646",
-     "size": 73461
+     "sha256": "49e240536916cae41b3e00fdb6f0877ef7a37df68d0e75c50d037fca9990dfd1",
+     "size": 18991
     },
     {
      "sha256": "360e03abecd4802385d31af3da90e827e9bc88868f35bc51dcacde9cf1e9eb87",
      "size": 73923
     },
     {
-     "sha256": "89a08da6a2669a40c063f6ec9410a14c8c21a6f9f539e745564d946e6f871316",
-     "size": 78016
+     "sha256": "0c4d1ee4ee949e5701f17c7590a714b7455831e9551ace80cfb8454f7870bd30",
+     "size": 73983
+    },
+    {
+     "sha256": "617e19792ed29b140e750b92cc4f5dbb6fdcfb40c662cbffb6a29df240a6d6f4",
+     "size": 78064
     },
     {
      "sha256": "d4ecc7037548a57c6f63d01953c5ce2b8da6bc4c3e2aa512b604360457780187",
      "size": 355319
     },
     {
-     "sha256": "9648ac65639d6e790d4bedf84028c70e3b579c5792284ce0402821503cdb8486",
-     "size": 619453
+     "sha256": "e7c87efc63bd05710e9bcae1ca6988ab8fb046d07afbc10ebf2a974ced2b9be5",
+     "size": 619734
     }
    ],
    "scripts": {
@@ -999,7 +999,7 @@
    "status": 200
   }
  },
- "scannedAt": "2026-10-17T03:10:26+00:00",
+ "scannedAt": "2026-10-18T06:16:23+00:00",
  "sitemap": [
   "https://aizhuiguang.tech/",
   "https://aizhuiguang.tech/gallery/",
