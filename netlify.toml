@@ -11,6 +11,14 @@
   command = "bash monitor/netlify_run.sh"
   publish = "pub"
 
+[functions]
+  # S14: builds must deploy the weekly fn themselves — a build with NO
+  # functions manifest REPLACES the whole live set with nothing (that is
+  # what wiped the scheduled fn on 2026-10-18 and killed the weekly cron).
+  # weekly.mjs carries its own schedule config; netlify_run.sh additionally
+  # runs netlify-ops/ensure_weekly_fn.py as a self-heal backstop.
+  directory = "functions"
+
 [build.environment]
   PYTHONUNBUFFERED = "true"
   NODE_VERSION = "20"
