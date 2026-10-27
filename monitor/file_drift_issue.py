@@ -29,24 +29,48 @@ def gh(path, data=None, method=None):
 
 
 def main():
+    global TITLE
     if not PAT:
         print('GH_PAT not set — cannot file issue (alert degraded to build failure)')
         return 1
-    report = json.load(open('monitor/report.json'))
+    try:
+        report = json.load(open('monitor/report.json'))
+    except Exception:
+        report = {'status': 'partial', 'scannedAt': 'unknown', 'errors': ['report.json missing/invalid']}
+    status = report.get('status', 'error')
     findings = report.get('findings', [])
+    if status == 'partial':
+        TITLE = '🧭 site scan INCOMPLETE: aizhuiguang.tech'
+        summary = [
+            'The scan could not finish within its budget (even after one retry) — the',
+            'site was rate-limiting or unreachable. **This is a scan-infra alert, NOT a',
+            'drift report**: coverage was partial, so absence of findings below means',
+            'nothing. Partial coverage:',
+            '',
+            f"- pages scanned: {len(report.get('pages', {}))}",
+            f"- files hashed: {len(report.get('files', {}))}",
+            f"- sitemap URLs: {len(report.get('sitemap', []))}",
+            f"- errors: {report.get('errors', [])}",
+        ]
+        nxt = ('_Next steps: re-run the scan manually (build POST or `python3 '
+               'monitor/site_monitor.py`); if the site is 429-storming, wait for the '
+               'storm window to pass. Do NOT re-baseline on a partial scan._')
+    else:
+        summary = ['The weekly site monitor detected changes on the live site.']
+        nxt = ('_Next steps: sync the changed data into the private scrape repo '
+               '(sources/js/, sources/html/, re-run parsed-layer regeneration), then '
+               'refresh the baseline: `python3 monitor/site_monitor.py --update` + commit._')
     lines = [
-        'The weekly site monitor detected changes on the live site.',
+        *summary,
         '',
-        f"**Scanned:** {report.get('scannedAt')}",
+        f"**Scanned:** {report.get('scannedAt')} (status: {status})",
         '',
         '```',
-        *[f'  {f}' for f in findings[:60]],
+        *[f'  {f}' for f in (findings or report.get('errors', []))[:60]],
         '```',
         '',
         '---',
-        '_Next steps: sync the changed data into the private scrape repo '
-        '(sources/js/, sources/html/, re-run parsed-layer regeneration), then '
-        'refresh the baseline: `python3 monitor/site_monitor.py --update` + commit._',
+        nxt,
         '_Scan lane: netlify scheduled function (Mon 09:00 UTC) → build → this issue. '
         'Manual: `python3 monitor/site_monitor.py`._',
     ]

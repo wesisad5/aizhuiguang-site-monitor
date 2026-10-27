@@ -27,6 +27,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import ssl
 import sys
@@ -184,6 +185,7 @@ _MIN_INTERVAL_S = [1.2]
 _COOLDOWN_UNTIL = [0.0]
 _RATE_EVENTS = [0]
 _LAST_REQ = [0.0]
+CURRENT: dict = {}  # live scan state — dumped as a partial report on SIGTERM
 
 
 def _pace():
@@ -298,6 +300,7 @@ def stamp_of(src_attr: str) -> str:
 
 
 def scan():
+    global CURRENT
     report = {
         "scannedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "pages": {},       # path -> {status, scripts: {path: stamp}}
@@ -305,6 +308,7 @@ def scan():
         "sitemap": [],     # url list
         "errors": [],
     }
+    CURRENT = report
 
     # 1. sitemap surface (translate proxy serves HTML only; r.jina.ai blocks some
     # IPs; direct works from GitHub runners; last resort: the z-ai page_reader CLI
@@ -429,6 +433,23 @@ def main():
     update = "--update" in args
     report_only = "--report-only" in args
 
+    # SIGTERM checkpoint: `timeout` kills long scans during 429-storm windows —
+    # dump whatever we have so the build can distinguish drift from incompleteness.
+    def _partial(signum, frame):
+        try:
+            if CURRENT:
+                out = REPO / "monitor" / "report.json"
+                out.write_text(json.dumps({"status": "partial", "scannedAt":
+                    datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "pages": CURRENT.get("pages", {}), "files": CURRENT.get("files", {}),
+                    "sitemap": CURRENT.get("sitemap", []), "errors":
+                    CURRENT.get("errors", []) + ["scan terminated by SIGTERM (budget cap)"]},
+                    ensure_ascii=False, indent=1) + "\n")
+        except Exception:
+            pass
+        sys.exit(3)
+
+    signal.signal(signal.SIGTERM, _partial)
     new = scan()
 
     if not BASELINE.exists():

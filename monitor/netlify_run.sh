@@ -34,12 +34,12 @@ if [ "${REFRESH_BASELINE:-0}" = "1" ]; then
   exit 0
 fi
 
+# Report-only scan, with ONE retry: the site burst-rate-limits (~24-50 req -> 429)
+# and a storm window can blow the 660s budget. A killed scan now dumps a partial
+# report (SIGTERM checkpoint in site_monitor.py) — treat that as "retry after a
+# cool-down", and after a second failure alert distinctly (scan infra, not drift).
 timeout "$SCAN_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
 RC=$?
-cat /tmp/scan-report.txt
-cp "$FETCH_LOG" pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
-echo "scan rc=$RC budget=${SCAN_BUDGET_S}s" >> pub/fetch-log.jsonl
-
 STATUS=$(python3 - << 'PY'
 import json
 try:
@@ -49,6 +49,33 @@ except Exception:
     print("error")
 PY
 )
+if [ "$STATUS" = "partial" ] || [ ! -f monitor/report.json ]; then
+  echo "scan attempt 1 incomplete (status=$STATUS rc=$RC) — cooling down 120s, retrying once"
+  cat /tmp/scan-report.txt
+  sleep 120
+  rm -f monitor/report.json
+  timeout "$SCAN_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
+  RC=$?
+  STATUS=$(python3 - << 'PY'
+import json
+try:
+    d = json.load(open("monitor/report.json"))
+    print(d.get("status", "error"))
+except Exception:
+    print("error")
+PY
+)
+fi
+cat /tmp/scan-report.txt
+cp "$FETCH_LOG" pub/fetch-log.jsonl 2>/dev/null || echo "[]" > pub/fetch-log.jsonl
+echo "scan rc=$RC budget=${SCAN_BUDGET_S}s status=$STATUS" >> pub/fetch-log.jsonl
+
+if [ "$STATUS" = "partial" ] || [ "$STATUS" = "error" ] || [ ! -f monitor/report.json ]; then
+  echo "weekly monitor: SCAN INCOMPLETE after retry (status=$STATUS, rc=$RC) — filing infra issue"
+  python3 monitor/file_drift_issue.py || echo "(issue filing failed — fetch-log published below)"
+  echo "scan-incomplete $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
+  exit 1
+fi
 
 if [ "$STATUS" = "clean" ] || [ "$STATUS" = "baseline-updated" ]; then
   echo "weekly monitor: $STATUS"
