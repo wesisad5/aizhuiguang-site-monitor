@@ -60,6 +60,9 @@ WATCH_PAGES = [
     "/tools/daily.html",
     "/tools/lightcut.html",
     "/tools/longshot.html",
+    "/tools/engine.html",        # S14: local AI engine suite (FLUX.2/Z-Image/LTX-2.5/WanGP)
+    "/tools/engine-api.html",    # S14: local engine API docs (127.0.0.1:7861)
+    "/dianying/",                # S14: director console — style tokens (style-tokens.js)
     "/tools/skill-weaver.html",
     "/tools/object-lab.html",
     "/tools/studio.html",
@@ -91,6 +94,7 @@ PINNED_FILES = [
     "/tools/drama-db.js",
     "/assets/aizg-agent.js",   # site AI-agent guide (since 20261013)
     "/llms.txt",               # site agent instruction file (since 20261013)
+    "/dianying/style-tokens.js",  # S14: director style tokens (18 styles + grades)
 ]
 
 SCRIPT_RE = re.compile(r'<script[^>]*\bsrc="([^"]+)"[^>]*>')
