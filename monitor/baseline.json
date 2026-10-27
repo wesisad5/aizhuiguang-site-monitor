@@ -17,9 +17,9 @@
    "stamp": ""
   },
   "/assets/aizg-consent.js": {
-   "sha256": "c8a65e07525b981c675b27bbfda97e43937e14c4762660b47fa10a8c60f70c5c",
-   "size": 6663,
-   "stamp": ""
+   "sha256": "c4339ca320c91a47ca0f581f051536dbf19f08b52f27c907e01f61e1afed2725",
+   "size": 7648,
+   "stamp": "20261027c"
   },
   "/assets/aizg-nav.js": {
    "sha256": "8cdd56cb675984de2cf85ca1aedd738a95cc49e5da08f4d55c352df308cd1e3a",
@@ -47,8 +47,8 @@
    "stamp": "2026060904"
   },
   "/llms.txt": {
-   "sha256": "406e1da2e0510fefafb38c10e3e7dd01204748cc21c5bef4009ac7061556fe1c",
-   "size": 22808,
+   "sha256": "0fdc61989fd9dca5805405048afb9b1ab5ec102802299754d3920a2707321687",
+   "size": 23123,
    "stamp": ""
   },
   "/tools/aizg-mini.js": {
@@ -146,10 +146,20 @@
    "size": 164643,
    "stamp": "20260828f"
   },
+  "/tools/lightcut-agent-pro.js": {
+   "sha256": "c1644a5381f0e7517b52cf62e36810380ed2269e1d663a2231021c188eb6a972",
+   "size": 174072,
+   "stamp": "20261026z"
+  },
   "/tools/lightcut-beatstop.js": {
    "sha256": "61d048a9f5834d8a17fbca361c2018daddb96d6cf65fcfa88fd9b596e21c7411",
    "size": 47502,
    "stamp": "20261011a"
+  },
+  "/tools/lightcut-music.js": {
+   "sha256": "fdf596011fe4dbc4bf48ea0a326bff3be7367f2443f058b72d496f964f91bd5a",
+   "size": 12523,
+   "stamp": "20261027b"
   },
   "/tools/lightcut-presets.js": {
    "sha256": "8c520d85068849d46fec61415113a7fdba2140c4ad09fa3e57b6bd0507ac3ebb",
@@ -157,9 +167,14 @@
    "stamp": "20261004b"
   },
   "/tools/lightcut-site-tools.js": {
-   "sha256": "ede80230820ac7e43b73bde4ebdaccfb474ee4bacc5c9f03c5f06259d8ae080f",
-   "size": 50271,
-   "stamp": "20261013b"
+   "sha256": "e8c0d8e71bf0cad7679dec50fc634d6c24e5a4dda785b63230e2063d023b9ef7",
+   "size": 54588,
+   "stamp": "20261027a"
+  },
+  "/tools/lightcut-tabs.js": {
+   "sha256": "d65ff08bd4795ed22374a6117f0510f6376f39e895d3c9f80633cddb515e634f",
+   "size": 7429,
+   "stamp": "20261027d"
   }
  },
  "pages": {
@@ -198,13 +213,17 @@
      "size": 4304
     },
     {
+     "sha256": "568390df22dc4f19d9eeae68b614ae71f8cec153d2ea0afcb96799b6648d5e7d",
+     "size": 5709
+    },
+    {
      "sha256": "4f8fbf662a384c615c8f031b809ce4734d24e9fc94bf898c79cfa586f5d30ff8",
      "size": 6714
     }
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/assets/aizg-timer-float.js": ""
    },
@@ -227,7 +246,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": ""
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -244,7 +263,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -266,7 +285,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/prompt-data.js": "2026060904"
    },
    "status": 200
@@ -284,7 +303,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": ""
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -293,6 +312,10 @@
     {
      "sha256": "4b67b919a9b3b5bdbe1b2d49cf652eb97c714298a13cd3512ebae770dac3cdaa",
      "size": 520
+    },
+    {
+     "sha256": "cd4a6f209f5605bd166d071df31e398d156c7881c095c3a6a65f994a3c97ecea",
+     "size": 927
     },
     {
      "sha256": "ed860b895cf4b9fb559d47ead5e4df6d4ddabc56f2b3a2a808dc9448da0c42d6",
@@ -305,7 +328,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/prompt-data.js": "2026060904"
    },
    "status": 200
@@ -328,7 +351,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -350,7 +373,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": ""
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -367,7 +390,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/prompt-data.js": "2026060904"
    },
    "status": 200
@@ -389,7 +412,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": ""
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -407,7 +430,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -426,7 +449,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -448,7 +471,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/prompt-data.js": "2026060904"
    },
    "status": 200
@@ -466,7 +489,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -484,7 +507,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -497,7 +520,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -534,7 +557,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -551,7 +574,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -586,7 +609,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -604,7 +627,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/tools/aizg-studio.js": "1"
    },
@@ -613,13 +636,13 @@
   "/tools/daily.html": {
    "inline": [
     {
-     "sha256": "103e1e4c3b9f83a091dc2b2f57f9248c75bf420cb86571c7ee466ce1cee58a82",
-     "size": 100304
+     "sha256": "f7ff584462b3eb960ed0d7dbe16296e410873be27fe2958e4d77a7164b11c1f0",
+     "size": 98342
     }
    ],
    "scripts": {
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/assets/daily-hero.js": "20260913a",
     "/tools/daily-cam.js": "20260824a",
@@ -646,7 +669,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/tools/dance-bgm-audio.js": "20260816"
    },
@@ -660,7 +683,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -673,7 +696,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -686,7 +709,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": ""
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -698,7 +721,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/tools/jingdi-cast-20260910.js": "20260910",
     "/tools/jingdi-cast.js": "20260817h",
@@ -715,7 +738,7 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -787,26 +810,29 @@
      "size": 73983
     },
     {
-     "sha256": "617e19792ed29b140e750b92cc4f5dbb6fdcfb40c662cbffb6a29df240a6d6f4",
-     "size": 78064
+     "sha256": "58d5b1b649ea560f16fed1fba09e6670fca89338d20338b13e7533445189ea13",
+     "size": 78194
     },
     {
      "sha256": "d4ecc7037548a57c6f63d01953c5ce2b8da6bc4c3e2aa512b604360457780187",
      "size": 355319
     },
     {
-     "sha256": "e7c87efc63bd05710e9bcae1ca6988ab8fb046d07afbc10ebf2a974ced2b9be5",
-     "size": 619734
+     "sha256": "f1a79917054faf6af1dccd6a6b04a71d6b43e0ee6b33a92e1156f7bb682fdb82",
+     "size": 635415
     }
    ],
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
+    "/tools/lightcut-agent-pro.js": "20261026z",
     "/tools/lightcut-beatstop.js": "20261011a",
+    "/tools/lightcut-music.js": "20261027b",
     "/tools/lightcut-presets.js": "20261004b",
-    "/tools/lightcut-site-tools.js": "20261013b"
+    "/tools/lightcut-site-tools.js": "20261027a",
+    "/tools/lightcut-tabs.js": "20261027d"
    },
    "status": 200
   },
@@ -818,7 +844,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/assets/longshot-filmstrip.js": "20260912"
    },
@@ -832,7 +858,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -840,8 +866,8 @@
   "/tools/music-prompt.html": {
    "inline": [
     {
-     "sha256": "ba78d76cfe12cc3939b38e510637b56fb1248c5bb3d6425e70e269a7448a362d",
-     "size": 7507
+     "sha256": "637c02b60a5f12f23b6557276fb5f8cfda753c06e87e3fc8bc61868fa2b82691",
+     "size": 19134
     },
     {
      "sha256": "429b75283e45e99cfda766ac87d02a5361f196290043ac1e988d0540bcf9c1fe",
@@ -852,12 +878,12 @@
      "size": 46919
     },
     {
-     "sha256": "2d587723f9af8cac065be7c769c41c98eb70e96d5dc27e4bc65663e718560e8e",
-     "size": 419489
+     "sha256": "e8d231abf9e698469efbdfdbf046a3bdd039c5076e4e4ea93aab98049598614d",
+     "size": 422854
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/tools/bgm-library-20260902.js": ""
    },
@@ -877,7 +903,7 @@
    "scripts": {
     "/aizg-clear.js": "1",
     "/aizg-lang.js": "20260806",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -931,7 +957,7 @@
    ],
    "scripts": {
     "/aizg-clear.js": "1",
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/tools/aizg-mini.js": "20260906d",
     "/tools/drama-db.js": "20261002a"
@@ -946,7 +972,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -963,7 +989,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -976,7 +1002,7 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
@@ -993,15 +1019,16 @@
     }
    ],
    "scripts": {
-    "/assets/aizg-consent.js": "",
+    "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
    },
    "status": 200
   }
  },
- "scannedAt": "2026-10-18T06:16:23+00:00",
+ "scannedAt": "2026-10-27T23:18:21+00:00",
  "sitemap": [
   "https://aizhuiguang.tech/",
+  "https://aizhuiguang.tech/dianying/",
   "https://aizhuiguang.tech/gallery/",
   "https://aizhuiguang.tech/gallery/ai-tools.html",
   "https://aizhuiguang.tech/gallery/audiobook.html",
@@ -1010,6 +1037,7 @@
   "https://aizhuiguang.tech/gallery/grid-story.html",
   "https://aizhuiguang.tech/gallery/grok.html",
   "https://aizhuiguang.tech/gallery/image-prompts.html",
+  "https://aizhuiguang.tech/gallery/kling4-tests-20261024.html",
   "https://aizhuiguang.tech/gallery/lumi-bot.html",
   "https://aizhuiguang.tech/gallery/multimodal.html",
   "https://aizhuiguang.tech/gallery/music-prompts.html",
@@ -1029,25 +1057,37 @@
   "https://aizhuiguang.tech/guides/8gb-vram-image-generation-guide.html",
   "https://aizhuiguang.tech/guides/ai-image-failure-diagnosis.html",
   "https://aizhuiguang.tech/guides/ai-model-test-record-template.html",
+  "https://aizhuiguang.tech/guides/ai-song-commercial-license.html",
   "https://aizhuiguang.tech/guides/ai-video-prompt.html",
   "https://aizhuiguang.tech/guides/browser-editor-media-loss.html",
   "https://aizhuiguang.tech/guides/character-consistency.html",
   "https://aizhuiguang.tech/guides/choose-ai-video-model.html",
+  "https://aizhuiguang.tech/guides/claude-cowork-control-musicful.html",
+  "https://aizhuiguang.tech/guides/distrokid-ai-music-release-guide.html",
   "https://aizhuiguang.tech/guides/engine-setup.html",
+  "https://aizhuiguang.tech/guides/hum-melody-to-full-song.html",
   "https://aizhuiguang.tech/guides/image-resolution-and-upscale-guide.html",
+  "https://aizhuiguang.tech/guides/kling4-multi-keyframe-30s-test.html",
+  "https://aizhuiguang.tech/guides/local-lipsync-mv-8gb.html",
+  "https://aizhuiguang.tech/guides/ltx-clipping-fix-guide.html",
+  "https://aizhuiguang.tech/guides/musicful-24-genre-prompt-test.html",
+  "https://aizhuiguang.tech/guides/one-image-lyric-mv.html",
   "https://aizhuiguang.tech/guides/oneshot-vs-storyboard.html",
   "https://aizhuiguang.tech/guides/photoreal-portrait-prompt-workflow.html",
   "https://aizhuiguang.tech/guides/reference-image-consistency-test.html",
   "https://aizhuiguang.tech/guides/series-vs-standalone-script.html",
   "https://aizhuiguang.tech/guides/three-minute-ai-short-film-workflow.html",
   "https://aizhuiguang.tech/guides/timeline-frame-alignment.html",
+  "https://aizhuiguang.tech/guides/video-subtitle-asr-proofreading.html",
   "https://aizhuiguang.tech/juben/",
   "https://aizhuiguang.tech/juben/fenghuanchao.html",
   "https://aizhuiguang.tech/juben/fenghuang_niepan.html",
   "https://aizhuiguang.tech/juben/fuchou_nvwang.html",
   "https://aizhuiguang.tech/juben/pochan_dagong.html",
+  "https://aizhuiguang.tech/juben/qingwu-zhangtie.html",
   "https://aizhuiguang.tech/juben/shaoshuai_furen.html",
   "https://aizhuiguang.tech/juben/shenyi_dinv.html",
+  "https://aizhuiguang.tech/juben/xiayiceng.html",
   "https://aizhuiguang.tech/juben/zhedan_zhenqinsong.html",
   "https://aizhuiguang.tech/juben/zhichang_zuoxi.html",
   "https://aizhuiguang.tech/juben/zidong_huifu.html",
@@ -1068,6 +1108,8 @@
   "https://aizhuiguang.tech/tools/dance-bgm.html",
   "https://aizhuiguang.tech/tools/demo-script-2.html",
   "https://aizhuiguang.tech/tools/demo-script.html",
+  "https://aizhuiguang.tech/tools/engine-api.html",
+  "https://aizhuiguang.tech/tools/engine.html",
   "https://aizhuiguang.tech/tools/jimeng-studio.html",
   "https://aizhuiguang.tech/tools/jingdi.html",
   "https://aizhuiguang.tech/tools/lightcut-subtitles.html",
@@ -1079,7 +1121,6 @@
   "https://aizhuiguang.tech/tools/prompt-generator.html",
   "https://aizhuiguang.tech/tools/skill-weaver.html",
   "https://aizhuiguang.tech/tools/studio.html",
-  "https://aizhuiguang.tech/tools/timer.html",
   "https://aizhuiguang.tech/tools/voice-studio.html",
   "https://aizhuiguang.tech/tools/音效库清单.html"
  ]
