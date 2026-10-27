@@ -14,11 +14,11 @@
   "/assets/aizg-agent.js": {
    "sha256": "d5f97e1413e2fabba38691f98e48f880e4538462a9f6dc922239302f4d0c4cbb",
    "size": 6444,
-   "stamp": ""
+   "stamp": "20261014"
   },
   "/assets/aizg-consent.js": {
-   "sha256": "c4339ca320c91a47ca0f581f051536dbf19f08b52f27c907e01f61e1afed2725",
-   "size": 7648,
+   "sha256": "45fd48feb2ae0323fb571a1fcc9741d4d97b7d060b6827a7c6996db895315937",
+   "size": 7100,
    "stamp": "20261027c"
   },
   "/assets/aizg-nav.js": {
@@ -45,6 +45,11 @@
    "sha256": "e21be46dc719b08eadcca5c1805b8e14a7317834dd5de2d1915fc957dada5187",
    "size": 55367,
    "stamp": "2026060904"
+  },
+  "/dianying/style-tokens.js": {
+   "sha256": "4bc91dd4fb5a23cbaf1eea348e683d7dbf84a804c1e4c5af46d80210e03ba3e6",
+   "size": 33043,
+   "stamp": "20260914"
   },
   "/llms.txt": {
    "sha256": "0fdc61989fd9dca5805405048afb9b1ab5ec102802299754d3920a2707321687",
@@ -226,6 +231,20 @@
     "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013",
     "/assets/aizg-timer-float.js": ""
+   },
+   "status": 200
+  },
+  "/dianying/": {
+   "inline": [
+    {
+     "sha256": "e10cc53ad451e2897ad6f8d2f3f4cf9f0b2a5caf765a8cb7ff4fdf8f54dc9892",
+     "size": 11617
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "20261027c",
+    "/assets/aizg-nav.js": "20261013",
+    "/dianying/style-tokens.js": "20260914"
    },
    "status": 200
   },
@@ -701,6 +720,46 @@
    },
    "status": 200
   },
+  "/tools/engine-api.html": {
+   "inline": [
+    {
+     "sha256": "1c1e7d93d65ba9ee3739079984639e0ca9ba711f852d9efa2a03debb85172c50",
+     "size": 1808
+    },
+    {
+     "sha256": "347309817820a4c6ca392ac65f505e73e8079ef068f94f13190a5783ef4c58de",
+     "size": 11337
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "20260928",
+    "/assets/aizg-agent.js": "20261014",
+    "/assets/aizg-consent.js": "20261027c"
+   },
+   "status": 200
+  },
+  "/tools/engine.html": {
+   "inline": [
+    {
+     "sha256": "73dfc0125d8805829dada2fdf193d411d6fb8841b1cf0182a983e6f37ef86d86",
+     "size": 4114
+    },
+    {
+     "sha256": "61bdcebe72253604104ba70e5df98f1d7921d46e01c557f0b370871e4a34b300",
+     "size": 32353
+    },
+    {
+     "sha256": "232a5e3a85949c069c237eb91ed4b4069d35aa977e18edb682a7908016a82a9a",
+     "size": 120373
+    }
+   ],
+   "scripts": {
+    "/aizg-lang.js": "20260928",
+    "/assets/aizg-agent.js": "20261014",
+    "/assets/aizg-consent.js": "20261027c"
+   },
+   "status": 200
+  },
   "/tools/jimeng-studio.html": {
    "inline": [
     {
@@ -1025,7 +1084,7 @@
    "status": 200
   }
  },
- "scannedAt": "2026-10-27T23:18:21+00:00",
+ "scannedAt": "2026-10-27T23:32:10+00:00",
  "sitemap": [
   "https://aizhuiguang.tech/",
   "https://aizhuiguang.tech/dianying/",
