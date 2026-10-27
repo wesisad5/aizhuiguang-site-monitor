@@ -29,8 +29,7 @@ PAT = os.environ.get("NETLIFY_PAT", "")
 SITE = os.environ.get("NETLIFY_SITE_ID", "")
 CRON = "0 9 * * 1"
 BASE = "https://api.netlify.com/api/v1"
-ZIP_PATH = Path(__file__).resolve().parent.parent / "weekly-fn" / "weekly.zip"
-REPO = Path(__file__).resolve().parent.parent.parent
+ZIP_PATH = Path(__file__).resolve().parent / "weekly-fn" / "weekly.zip"
 
 
 def api(path, data=None, method=None, raw=None, timeout=180):
@@ -58,25 +57,23 @@ def api(path, data=None, method=None, raw=None, timeout=180):
 
 
 def current_state():
-    """(fn_names, weekly_has_schedule) of the live site; (None, None) on API failure."""
+    """(fn_names, weekly_has_schedule) of the live site; (None, None) on API failure.
+    NOTE the endpoint's abbreviated keys: name='n', schedule='schedule' (plain string)."""
     s, d = api(f"/sites/{SITE}/functions", timeout=30)
-    if s != 200:
+    if s != 200 or not isinstance(d, dict):
         return None, None
-    if isinstance(d, dict):
-        for k in ("functions", "data"):
-            if k in d and isinstance(d[k], list):
-                d = d[k]
-                break
-    if not isinstance(d, list):
+    fns = d.get("functions")
+    if not isinstance(fns, list):
         return None, None
-    names = [f.get("name") for f in d]
-    weekly = next((f for f in d if f.get("name") == "weekly"), None)
+    names = [f.get("n") or f.get("name") for f in fns]
+    weekly = next((f for f in fns if (f.get("n") or f.get("name")) == "weekly"), None)
     sched = False
     if weekly:
-        scheds = weekly.get("schedules") or weekly.get("cron") or []
-        sched = bool(scheds)
-        if isinstance(scheds, list) and scheds:
-            entry = scheds[0]
+        raw = weekly.get("schedule") or weekly.get("schedules") or weekly.get("cron")
+        if isinstance(raw, str):
+            sched = raw == CRON
+        elif isinstance(raw, list):
+            entry = raw[0] if raw else {}
             sched = (entry.get("cron") if isinstance(entry, dict) else entry) == CRON
     return names, sched
 
