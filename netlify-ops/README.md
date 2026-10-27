@@ -110,3 +110,51 @@ preview).
 3. build runs the scanner; drift → issue comment on
    "🔔 site drift detected: aizhuiguang.tech" (wesisad5 gets the email)
 4. Manual anytime: POST /sites/{site_id}/builds {"branch":"lane/monitor"}
+
+## ⚠️ POSTMORTEM S14 (2026-10-27): the weekly cron was silently dead for 9 days
+
+Symptom: zero builds between Oct-18 06:16 and Oct-27 22:33 — both Monday crons
+(Oct 19 + Oct 26) never fired. Three stacked causes, all fixed:
+
+1. **The Oct-18 manual git build wiped the scheduled fn.** The site's
+   `functions_dir` was null, so the build's deploy carried an EMPTY functions
+   manifest and replaced the raw-API-deployed `weekly` fn with nothing (the
+   "production deploys REPLACE the set" rule bites git builds too, not just fn
+   deploys). Fix: netlify.toml `[functions] directory = "functions"` — every
+   build now deploys weekly.mjs itself — PLUS `ensure_weekly_fn.py` as the last
+   build step (raw-API redeploy of the committed `weekly-fn/weekly.zip` with
+   `function_schedules` if the fn or its cron is missing; non-fatal).
+   NOTE the functions API returns abbreviated keys: `n`=name, `schedule`=cron
+   string (not `schedules`/`cron` objects) — ensure_weekly_fn.py parses both.
+2. **`REFRESH_BASELINE=1` leftover** in the lane netlify.toml (from the Oct-18
+   refresh session): even if the cron HAD fired, the scan would have silently
+   re-baselined instead of alerting. Fix: removed from netlify.toml AND from the
+   site env; the re-baseline procedure now ends with an explicit env-var DELETE
+   step (see README table).
+3. **Uncapped report-only scan**: netlify_run.sh had a stray
+   `timeout "$SCAN_BUDGET_S"` stub on its own line and the report-only path ran
+   the scanner WITHOUT the timeout wrapper (only refresh mode was capped) —
+   builds could hang indefinitely. Fix: both paths capped; `bash -n` clean.
+
+## S14 topology (post-migration)
+
+- **GitLab**: old account (ansgareutychisO) PAT REVOKED 2026-10-28 — all
+  old-namespace projects frozen (monitor 87549490 still public-readable but
+  unpushable; used by nothing). New mirrors under **wesisad5**: monitor 88179781
+  (public — the netlify build lane points here), secrets 88179862,
+  story-engine 88179928, scrape-backup 88180109, assets 88180796.
+- **Lane 2**: aizg-drift-watch.netlify.app (site 4b69b539-a662-4ff6-b2d7-6b183db725a8,
+  account ujaraksuzanne-coder 688d9452336ce2dc54243a3a — legacy 300 build-min).
+  Same GL repo, same lane branch, own weekly fn + same cron Mon 09:00 UTC.
+  Redundancy: either account losing functions/credits still keeps the cadence.
+- **Capture lane**: aizg-drift-monitor-2 (cafesoleil319 330dfbfb) — account is
+  credit-dead (production deploys 403 "credits exceeded") but DRAFT deploys
+  serve: the `fetch.mjs` draft fn is the raw-site-capture path
+  (`POST {url}` → bytes through netlify egress; use when the sandbox proxy is
+  rate-limited). Deployed via the raw-API recipe above with `"draft": true`.
+- **Fleet probes**: an account being "active" is NOT enough — check
+  `capabilities.build_minutes` exists (legacy) vs credit system (new-credit),
+  and verify with a real deploy (credit-dead accounts only fail at deploy time;
+  kasulty = legacy but site-count-capped; cafesoleil319 = new-credit-dead).
+  Probe script pattern: s14-probe_lane2_account.py / s14-probe_lane2_v2.py in
+  the scrape repo's scripts/.

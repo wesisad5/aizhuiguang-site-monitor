@@ -17,8 +17,9 @@ only the scanner + a fingerprint baseline.
 | Data files | sha256 + size | `DATA CHANGED: /tools/drama-db.js (sha …)` |
 | Inline data | per-page inline `<script>` block fingerprints | `INLINE data blocks changed on /tools/branch-drama.html` |
 
-37 watched pages (all /tools/ + data-bearing /gallery/), 30 pinned data files,
-81 sitemap URLs, 112 inline blocks in the current baseline.
+37 watched pages (all /tools/ + data-bearing /gallery/ + the S14 additions: /tools/engine.html,
+/tools/engine-api.html, /dianying/), 5 pinned data files, 96 sitemap URLs in the current
+baseline (2026-10-27T23:18 refresh, 0 errors).
 
 ## When it fires
 
@@ -50,20 +51,26 @@ Stdlib only. Direct HTTPS first, translate.goog proxy fallback (the site resolve
 IPv6-only and hangs unknown IPv4 egress — sandboxes need the proxy; GitHub
 runners go direct).
 
-## ✅ LIVE — netlify weekly lane (since 2026-10-17)
+## ✅ LIVE — netlify weekly lane (since 2026-10-17) + lane 2 (since 2026-10-27)
 
 The alert pipeline runs on **netlify build compute** (no GHA / no GitLab CI
 needed — both were account-blocked; see netlify-ops/README.md for the full
 recipes). First real fire: 2026-10-17, issue #1 (lightcut AI-agent tooling
-drift) — detected, synced, and closed same-day.
+drift) — detected, synced, and closed same-day. Second fire: 2026-10-27, issue
+#2 (16 new pages + lightcut suite + local-engine tooling) — synced + closed
+same-day, AND exposed that the weekly cron had been dead since Oct 18 (see
+netlify-ops/README.md — fn wiped by a git build; now self-healing).
 
 | Piece | Where |
 |---|---|
-| Weekly trigger | scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo, ~5 min/wk) |
-| Scan build | git-connected to the PUBLIC GitLab mirror of this repo, branch `lane/monitor` (anonymous HTTPS clone — GitHub connections need deploy keys and fail) |
+| Lane 1 trigger | scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo, ~5 min/wk) |
+| Lane 2 trigger (REDUNDANT) | same scheduled function on **aizg-drift-watch.netlify.app** (second fleet account, ujaraksuzanne-coder) — same repo, same cron; either lane surviving keeps the weekly cadence. Proven 2026-10-27 (scanned + drift-commented issue #2) |
+| Scan build | git-connected to the PUBLIC GitLab mirror of this repo (**wesisad5/aizhuiguang-site-monitor**, project 88179781 — migrated off the revoked old account 2026-10-27), branch `lane/monitor` (anonymous HTTPS clone — GitHub connections need deploy keys and fail) |
+| Self-heal | netlify.toml `[functions]` directory deploys weekly.mjs on every build; `netlify-ops/ensure_weekly_fn.py` (build step, raw API + committed weekly.zip) restores the fn + cron if anything wipes them |
 | Drift alert | `monitor/file_drift_issue.py` — opens/comments the 🔔 issue (emails the repo owner) + the build fails (netlify deploy notification). Clean scans = green heartbeat builds |
-| Manual run | `POST /sites/9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b/builds {"branch":"lane/monitor"}` with the netlify PAT, or `python3 monitor/site_monitor.py` locally |
-| Re-baseline after a sync | `REFRESH_BASELINE=1` site env (account env API) → fire a build → it re-scans direct, commits monitor/baseline.json back to main + re--points the lane, and captures raw files (llms.txt) — then DELETE the env var |
+| Manual run | `POST /sites/9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b/builds {"branch":"lane/monitor"}` with the netlify PAT (lane 2: site `4b69b539-a662-4ff6-b2d7-6b183db725a8`), or `python3 monitor/site_monitor.py` locally |
+| Re-baseline after a sync | `REFRESH_BASELINE=1` site env (account env API) → fire a build → it re-scans direct, commits monitor/baseline.json back to main + re-points the lane, and captures raw files (llms.txt) — then DELETE the env var (a left-over value makes scheduled scans silently re-baseline instead of alerting — this exact trap was found + fixed 2026-10-27) |
+| Raw capture lane | draft `fetch.mjs` fn on aizg-drift-monitor-2 (credit-dead account — drafts still serve): POST `{url}` → raw bytes through netlify egress (the sandbox path to aizhuiguang.tech, which rate-limits proxies) |
 
 Scanner notes (2026-10-17): the site burst-rate-limits (~24-50 rapid requests →
 429) — the scanner uses adaptive global pacing (1.2s doubling on 429, global
