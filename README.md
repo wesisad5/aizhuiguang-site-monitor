@@ -63,10 +63,11 @@ netlify-ops/README.md — fn wiped by a git build; now self-healing).
 
 | Piece | Where |
 |---|---|
-| Lane 1 trigger | scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo, ~5 min/wk) |
-| Lane 2 trigger (REDUNDANT) | same scheduled function on **aizg-drift-watch.netlify.app** (second fleet account, ujaraksuzanne-coder) — same repo, same cron; either lane surviving keeps the weekly cadence. Proven 2026-10-27 (scanned + drift-commented issue #2) |
+| Weekly trigger (S14 final) | **cron hub**: scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-vault.netlify.app** — a NO-BUILD site (raw-API deploys only), so no git build can ever replace its fn set (that is what killed the cron twice). The hub fn POSTs a `lane/monitor` build on BOTH lane sites (NETLIFY_SITE_IDS env) |
+| Lane 1 | **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo) — pure scan lane, no functions |
+| Lane 2 (REDUNDANT) | **aizg-drift-watch.netlify.app** (second fleet account, ujaraksuzanne-coder) — same repo, same scan; either lane failing still leaves the other alerting. Proven 2026-10-27 (scanned + drift-commented issue #2) |
 | Scan build | git-connected to the PUBLIC GitLab mirror of this repo (**wesisad5/aizhuiguang-site-monitor**, project 88179781 — migrated off the revoked old account 2026-10-27), branch `lane/monitor` (anonymous HTTPS clone — GitHub connections need deploy keys and fail) |
-| Self-heal | netlify.toml `[functions]` directory deploys weekly.mjs on every build; `netlify-ops/ensure_weekly_fn.py` (build step, raw API + committed weekly.zip) restores the fn + cron if anything wipes them |
+| Fn maintenance | `netlify-ops/ensure_weekly_fn.py` (raw API + the committed hub zip in netlify-ops/weekly-fn/) — run against the HUB site if its fn ever needs repair; never host fns on the build lanes |
 | Drift alert | `monitor/file_drift_issue.py` — opens/comments the 🔔 issue (emails the repo owner) + the build fails (netlify deploy notification). Clean scans = green heartbeat builds |
 | Manual run | `POST /sites/9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b/builds {"branch":"lane/monitor"}` with the netlify PAT (lane 2: site `4b69b539-a662-4ff6-b2d7-6b183db725a8`), or `python3 monitor/site_monitor.py` locally |
 | Re-baseline after a sync | `REFRESH_BASELINE=1` site env (account env API) → fire a build → it re-scans direct, commits monitor/baseline.json back to main + re-points the lane, and captures raw files (llms.txt) — then DELETE the env var (a left-over value makes scheduled scans silently re-baseline instead of alerting — this exact trap was found + fixed 2026-10-27) |
