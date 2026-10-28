@@ -11,13 +11,12 @@
   command = "bash monitor/netlify_run.sh"
   publish = "pub"
 
-[functions]
-  # S14: builds must deploy the weekly fn themselves — a build with NO
-  # functions manifest REPLACES the whole live set with nothing (that is
-  # what wiped the scheduled fn on 2026-10-18 and killed the weekly cron).
-  # weekly.mjs carries its own schedule config; netlify_run.sh additionally
-  # runs netlify-ops/ensure_weekly_fn.py as a self-heal backstop.
-  directory = "functions"
+# S14: NO [functions] block on purpose — build lanes are pure scan sites.
+# Scheduled functions living on a build-connected site get wiped/re-registered
+# by every deploy (and build-stage schedule registration exits 2 on this plan).
+# The weekly cron fn lives on aizg-vault (no git connection, no builds —
+# immortal fn set; deployed via the raw API with function_schedules; see
+# netlify-ops/README.md "Cron hub").
 
 [build.environment]
   PYTHONUNBUFFERED = "true"

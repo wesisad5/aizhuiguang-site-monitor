@@ -10,9 +10,12 @@
 #    clean  -> green build (weekly heartbeat, no email noise)
 set -uo pipefail
 export FETCH_LOG="${FETCH_LOG:-/tmp/fetch-log.jsonl}"
-# BOTH scan paths are capped: a hung/backoff-spiraling scan must NEVER exceed the
-# netlify build window (a partial scan still publishes its fetch-log + report).
-SCAN_BUDGET_S="${SCAN_BUDGET_S:-660}"
+# BOTH scan paths are capped and the report-only path gets ONE bounded retry: the
+# site burst-rate-limits (~24-50 req -> 429) and netlify KILLS builds at 15 min
+# hard ("Command did not finish within the time limit") — so attempt1 (420s) +
+# cool-down (45s) + attempt2 (300s) + alert/overhead must fit well inside that.
+SCAN_BUDGET_S="${SCAN_BUDGET_S:-420}"
+RETRY_BUDGET_S="${RETRY_BUDGET_S:-300}"
 mkdir -p pub
 rm -f "$FETCH_LOG"
 
@@ -29,7 +32,6 @@ if [ "${REFRESH_BASELINE:-0}" = "1" ]; then
   ls -la refresh-capture/ || true
   cp refresh-capture/* pub/ 2>/dev/null || true   # publish raw captures for pickup
   python3 monitor/commit_refresh.py || echo "(refresh commit failed — see above)"
-  python3 netlify-ops/ensure_weekly_fn.py || echo "(weekly fn ensure failed — non-fatal)"
   echo "baseline refresh $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
   exit 0
 fi
@@ -50,11 +52,11 @@ except Exception:
 PY
 )
 if [ "$STATUS" = "partial" ] || [ ! -f monitor/report.json ]; then
-  echo "scan attempt 1 incomplete (status=$STATUS rc=$RC) — cooling down 120s, retrying once"
+  echo "scan attempt 1 incomplete (status=$STATUS rc=$RC) — cooling down 45s, retrying once"
   cat /tmp/scan-report.txt
-  sleep 120
+  sleep 45
   rm -f monitor/report.json
-  timeout "$SCAN_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
+  timeout "$RETRY_BUDGET_S" python3 monitor/site_monitor.py --report-only > /tmp/scan-report.txt 2>&1
   RC=$?
   STATUS=$(python3 - << 'PY'
 import json
@@ -79,13 +81,11 @@ fi
 
 if [ "$STATUS" = "clean" ] || [ "$STATUS" = "baseline-updated" ]; then
   echo "weekly monitor: $STATUS"
-  python3 netlify-ops/ensure_weekly_fn.py || echo "(weekly fn ensure failed — non-fatal)"
   echo "$STATUS $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
   exit 0
 fi
 
 echo "weekly monitor: DRIFT DETECTED ($STATUS, scan rc=$RC) — filing issue"
 python3 monitor/file_drift_issue.py || echo "(issue filing failed — see report above)"
-python3 netlify-ops/ensure_weekly_fn.py || echo "(weekly fn ensure failed — non-fatal)"
 echo "drift $(date -u +%FT%TZ) rc=$RC" > pub/status.txt
 exit 1
