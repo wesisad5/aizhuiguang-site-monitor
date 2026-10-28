@@ -158,3 +158,49 @@ Symptom: zero builds between Oct-18 06:16 and Oct-27 22:33 — both Monday crons
   kasulty = legacy but site-count-capped; cafesoleil319 = new-credit-dead).
   Probe script pattern: s14-probe_lane2_account.py / s14-probe_lane2_v2.py in
   the scrape repo's scripts/.
+
+## Cron hub (S14 FINAL — the stable architecture)
+
+The scheduled fn must NOT live on a build-connected site. Three rounds of evidence:
+1. A git build with `functions_dir=null` replaces the site's fn set with NOTHING
+   (killed the cron Oct-18).
+2. `[functions] directory` makes builds re-deploy the fn — but the build STAGE
+   exits 2 when it tries to register a schedule from a functions-dir deploy on
+   this plan (esbuild/bundler pipeline; a config-less fn bundles fine — proven
+   by test matrix A/B).
+3. A raw-API ensure inside the build script heals the fn + schedule, but the
+   build's OWN deploy finalizes afterward and overwrites the set again (the
+   ordering can't be won from inside the build).
+
+**Therefore**: the weekly cron fn lives on **aizg-vault** (site
+`84a4ed19-7df7-4c44-bb3c-137a0d5f3d6a`) — a site with NO git connection and NO
+builds, only raw-API deploys. Nothing can replace its fn set except an explicit
+API deploy. The fn (`functions/weekly.mjs` — the hub version) reads
+`NETLIFY_PAT` + `NETLIFY_SITE_IDS` (both lane site ids, comma-separated) and
+POSTs one `lane/monitor` build per lane. Schedule registered via the deploy
+API's `function_schedules` (cron `0 9 * * 1`). Redeploy recipe:
+`scripts/s14-deploy_cron_hub.py` (sandbox) — zip via @netlify/zip-it-and-ship-it,
+sha256, function_schedules, PUT bytes, then account-env API for the two vars.
+
+- Lane 1 `aizg-drift-monitor` (wesisad5 team) + lane 2 `aizg-drift-watch`
+  (ujaraksuzanne-coder): pure scan lanes — no [functions] block in netlify.toml.
+- The lanes' own legacy scheduled fns die at their next successful finalize
+  (automatic cleanup); until then Monday may double-fire a lane — harmless
+  (builds queue 1-wide per account).
+- Manual invocation of the hub fn is 403 (scheduled fns are cron-only —
+  netlify platform rule). To test the chain manually, POST the lane builds
+  directly (see README table).
+- **Netlify hard build cap = 15 min** ("Command did not finish within the time
+  limit" — platform kill). Scan budgets: 420s attempt 1 + 45s cool-down + 300s
+  retry + overhead ≈ 14 min max. The old 2×660s retry design was platform-killed.
+- Scheduled fns CANNOT be invoked externally (403) and deploy-notification
+  webhooks have no API on this plan (all /notify endpoints 404) — the immortal
+  hub is the only viable schedule carrier.
+
+## Postmortem addendum: the exit-2 red herring
+
+"Build script returned non-zero exit code: 2" on every [functions]-configured
+build was the BUILD STAGE's function-bundling/schedule-registration step failing
+(NOT netlify_run.sh — the script itself exits 0/1 correctly; proven by the
+published trace from the diag-run.sh forensic build). If builds exit 2 the moment
+a functions dir is configured, check the fn's config export first.
