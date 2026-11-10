@@ -21,7 +21,7 @@ import os
 PAT = os.environ.get('NETLIFY_PAT', '')
 SITE = os.environ.get('NETLIFY_SITE_ID', '')
 BASE = 'https://api.netlify.com/api/v1'
-CRON = '0 9 * * 1'   # Monday 09:00 UTC
+CRON = '7 17 * * 1'   # Monday 17:07 UTC (S15: off Beijing peak + off the :00 cron wave)
 
 
 def api(path, data=None, method=None, raw=None):

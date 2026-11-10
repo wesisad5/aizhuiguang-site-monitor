@@ -96,8 +96,8 @@ preview).
 ## Monitor lane (aizg-drift-monitor.netlify.app)
 
 - site 9fe5dd05-7ad0-4a1e-8ab0-016aabaf4b8b, wesisad5's team (300 min/mo)
-- scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) → POSTs the
-  lane/monitor build
+- pure scan lane (S15): NO functions on the lane sites — the trigger is the
+  cron-hub fn on aizg-vault (see "Cron hub")
 - build = git clone (GL mirror, lane/monitor) → `bash monitor/netlify_run.sh`
   → python3 site_monitor.py → on drift: GitHub issue (emails the repo owner)
   + failed build (netlify deploy notification email)
@@ -105,11 +105,46 @@ preview).
 
 ## Weekly monitor alert chain (user-facing)
 
-1. netlify cron (Mon 09:00 UTC) fires the scheduled function
-2. function POSTs the lane build (NETLIFY_PAT/SITE_ID env)
+1. netlify cron (Mon 17:07 / 17:37 / 18:07 UTC — primary + heals) fires the
+   scheduled hub fn on aizg-vault
+2. hub fn fires each lane build with ITS OWN account's PAT
+   (NETLIFY_PATS, same order as NETLIFY_SITE_IDS), skipping lanes whose latest
+   build is <45 min old (idempotent — the heal shots only fire what failed)
 3. build runs the scanner; drift → issue comment on
-   "🔔 site drift detected: aizhuiguang.tech" (wesisad5 gets the email)
+   "🔔 site drift detected: aizhuiguang.tech" (wesisad5 gets the email);
+   scan that can't finish → the distinct 🧭 scan-INCOMPLETE issue
 4. Manual anytime: POST /sites/{site_id}/builds {"branch":"lane/monitor"}
+
+## ⚠️ POSTMORTEM S15 (2026-11-10): the hub fired into a wall for 2 weeks
+
+Symptom: both Monday crons (Nov 2 + Nov 9) "fired" — but lane 1 got ZERO
+builds both weeks and both lane-2 scans died partial (issue #5). Four stacked
+causes, all fixed:
+
+1. **The S14 hub used ONE PAT for BOTH lanes.** Lane 2 lives on a different
+   netlify account, so the hub's lane-2 builds POST 404'd EVERY time
+   (cross-account, probe-proven 2026-11-10). The Monday lane-2 scans only
+   happened because lane 2's OWN legacy fn fired them. Fix: `NETLIFY_PATS`
+   (comma list, per-lane PAT) + the fn fires each lane with its own account's
+   token; NETLIFY_PAT stays as fallback.
+2. **Lane 1's own fn was wiped by the Oct-28 green finalize** (by design — the
+   hub was supposed to take over) and the hub's lane-1 POST failed both
+   Mondays (transient; manual POST works). Fix: in-fn staleness check +
+   MULTIPLE schedule shots (17:07 primary, 17:37 + 18:07 heals — each run
+   skips lanes with a build <45 min old, so they never double-fire).
+3. **09:00 UTC = 17:00 Beijing = the site's evening peak.** Both Monday scans
+   + a 00:38 UTC (09:00 Beijing) catch-up scan crawled at ~10s/fetch with
+   heavy 429s and died at the budget cap. Fix: cron moved to 17:07 UTC
+   (02:07 Beijing) + the scanner's start pace moved 1.2s → 3.5s steady
+   (see site_monitor.py header — the old pace burst-tripped the site's
+   ~24-req limiter then starved in 60-180s cooldowns).
+4. **Scheduled fns get ~10s execution** — the old fn's serial 2×25s-timeout
+   POSTs could be killed mid-flight. Fix: the fn now does a 4s staleness
+   check + 4s POST PER LANE, ALL LANES IN PARALLEL — exits in ~5s worst case.
+
+Also observed: netlify build minutes RESET monthly (wesisad5's team showed
+300/300 on Nov 10 after Oct's heavy use) — check `capabilities.build_minutes`
+before assuming quota exhaustion.
 
 ## ⚠️ POSTMORTEM S14 (2026-10-27): the weekly cron was silently dead for 9 days
 
@@ -145,8 +180,12 @@ Symptom: zero builds between Oct-18 06:16 and Oct-27 22:33 — both Monday crons
   story-engine 88179928, scrape-backup 88180109, assets 88180796.
 - **Lane 2**: aizg-drift-watch.netlify.app (site 4b69b539-a662-4ff6-b2d7-6b183db725a8,
   account ujaraksuzanne-coder 688d9452336ce2dc54243a3a — legacy 300 build-min).
-  Same GL repo, same lane branch, own weekly fn + same cron Mon 09:00 UTC.
-  Redundancy: either account losing functions/credits still keeps the cadence.
+  Same GL repo, same lane branch. Its own legacy scheduled fn (cron 09:00 UTC)
+  is what actually fired the Nov-2/Nov-9 scans — it survives until the lane's
+  first clean (green) finalize wipes it, after which the hub covers it.
+  ⚠️ S15: the ujaraksuzanne PAT's API access to this site is INTERMITTENT
+  (most reads 404, occasional 200 — netlify-side; retries eventually get
+  through; the fn/builds path itself works — the Nov 2/9 builds prove it).
 - **Capture lane**: aizg-drift-monitor-2 (cafesoleil319 330dfbfb) — account is
   credit-dead (production deploys 403 "credits exceeded") but DRAFT deploys
   serve: the `fetch.mjs` draft fn is the raw-site-capture path
@@ -175,12 +214,14 @@ The scheduled fn must NOT live on a build-connected site. Three rounds of eviden
 **Therefore**: the weekly cron fn lives on **aizg-vault** (site
 `84a4ed19-7df7-4c44-bb3c-137a0d5f3d6a`) — a site with NO git connection and NO
 builds, only raw-API deploys. Nothing can replace its fn set except an explicit
-API deploy. The fn (`functions/weekly.mjs` — the hub version) reads
-`NETLIFY_PAT` + `NETLIFY_SITE_IDS` (both lane site ids, comma-separated) and
-POSTs one `lane/monitor` build per lane. Schedule registered via the deploy
-API's `function_schedules` (cron `0 9 * * 1`). Redeploy recipe:
-`scripts/s14-deploy_cron_hub.py` (sandbox) — zip via @netlify/zip-it-and-ship-it,
-sha256, function_schedules, PUT bytes, then account-env API for the two vars.
+API deploy. The fn (`functions/weekly.mjs` — the S15 hub version) reads
+`NETLIFY_SITE_IDS` + `NETLIFY_PATS` (per-lane PATs, same order) and POSTs one
+`lane/monitor` build per lane (skipping lanes with a build <45 min old).
+Schedules registered via the deploy API's `function_schedules` (cron
+`7 17 * * 1` + `37 17 * * 1` + `7 18 * * 1`). Redeploy recipe:
+`scripts/s15-deploy_cron_hub.py` (in the scrape repo) — zip via
+@netlify/zip-it-and-ship-it, sha256, function_schedules, PUT bytes, then
+account-env API for the three vars.
 
 - Lane 1 `aizg-drift-monitor` (wesisad5 team) + lane 2 `aizg-drift-watch`
   (ujaraksuzanne-coder): pure scan lanes — no [functions] block in netlify.toml.

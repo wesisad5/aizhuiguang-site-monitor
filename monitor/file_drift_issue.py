@@ -71,7 +71,7 @@ def main():
         '',
         '---',
         nxt,
-        '_Scan lane: netlify scheduled function (Mon 09:00 UTC) → build → this issue. '
+        '_Scan lane: netlify scheduled hub fn (Mon 17:07/17:37/18:07 UTC) → build → this issue. '
         'Manual: `python3 monitor/site_monitor.py`._',
     ]
     body = '\n'.join(lines)

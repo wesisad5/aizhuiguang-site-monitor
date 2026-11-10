@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
-"""ensure_weekly_fn.py — self-heal the weekly scheduled fn from inside a netlify build.
+"""ensure_weekly_fn.py — MANUAL repair tool for the cron-hub weekly fn (S15).
 
-Why this exists (S14): production deploys REPLACE the whole function set. The
-Oct-18 git build wiped the raw-API-deployed weekly fn (functions_dir was null),
-silently killing the Monday 09:00 UTC cron. Two defenses now:
-  1. netlify.toml [functions] directory="functions" → every build deploys
-     weekly.mjs itself (function set can never be replaced with NOTHING).
-  2. this script runs at build END: if the live fn set is missing `weekly` or
-     its cron schedule is not registered, re-deploy via the raw API using the
-     PREBUILT zip committed at netlify-ops/weekly-fn/weekly.zip (built by
-     @netlify/zip-it-and-ship-it — see netlify-ops/README.md; rebuild whenever
-     functions/weekly.mjs changes).
+History: written in S14 as an in-build self-heal for the lane sites — DISPROVEN
+(the build's own deploy finalizes AFTER the script and re-wipes the set; see
+netlify-ops/README.md "Cron hub"). The lane sites now carry NO functions at
+all; the scheduled fn lives on aizg-vault (no git, no builds — nothing can
+replace its set).
 
-Stdlib only (no pip, no npx at build time). Env: NETLIFY_PAT, NETLIFY_SITE_ID
-(set account-wide, context=all — present in build runtime).
-Exits 0 unless the redeploy outright fails (never blocks the scan report).
+Use TODAY: run manually (sandbox) if the hub's fn or schedule ever looks wrong:
+  NETLIFY_PAT=<wesisadora005 PAT> NETLIFY_SITE_ID=84a4ed19-7df7-4c44-bb3c-137a0d5f3d6a \
+      python3 netlify-ops/ensure_weekly_fn.py
+It re-deploys the PREBUILT zip committed at netlify-ops/weekly-fn/weekly.zip
+(rebuild it with @netlify/zip-it-and-ship-it whenever functions/weekly.mjs
+changes — or just use the scrape repo's scripts/s15-deploy_cron_hub.py which
+rebuilds + redeploys + sets env in one go).
+
+Stdlib only. Exits 0 unless the redeploy outright fails.
 """
 import hashlib
 import json
@@ -27,7 +28,7 @@ from pathlib import Path
 
 PAT = os.environ.get("NETLIFY_PAT", "")
 SITE = os.environ.get("NETLIFY_SITE_ID", "")
-CRON = "0 9 * * 1"
+CRON = "7 17 * * 1"  # S15: Mon 17:07 UTC (see netlify-ops/README.md postmortem S15)
 BASE = "https://api.netlify.com/api/v1"
 ZIP_PATH = Path(__file__).resolve().parent / "weekly-fn" / "weekly.zip"
 

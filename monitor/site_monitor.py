@@ -176,12 +176,18 @@ def _log_fetch(url, ms, st, phase=""):
 # The site burst-rate-limits (~24-50 rapid requests -> 429, window unknown,
 # observed 2026-10-17: 24 req in 16s tripped it; 1.5s/req also eventually
 # tripped it). Fixed per-URL backoff spiralled (90-180s per throttled URL,
-# per-URL counters multiply across the remaining queue). This version:
-#   - global min-interval that DOUBLES on each 429 event (1.2 -> up to 6s)
-#   - global cooldown after a 429 (60s * escalation, shared by all fetches)
+# per-URL counters multiply across the remaining queue). The mechanism:
+#   - global min-interval that DOUBLES on each 429 event (SCAN_PACE_S -> up to 8s)
+#   - global cooldown after a 429 (30s * escalation, shared by all fetches)
 #   - per-URL: at most 3 rate-limited attempts, then record + move on
-# A full scan (~90 URLs) at 3s/req = ~5 min — under the netlify 15-min cap.
-_MIN_INTERVAL_S = [1.2]
+# S15 (2026-11-10): steady sub-burst pace from the START. The old 1.2s start pace
+# burst ~25-30 requests in the first minute, GUARANTEED to trip the site's burst
+# limiter, then paid 60-180s cooldowns — both 2026-11-02 and 2026-11-09 Monday
+# scans died at "40 pages, 29-37 files" inside 720s that way (issue #5).
+# A full scan (~80 fetches) at 3.5s+latency ≈ 5-6 min — inside one 420s attempt
+# with headroom, and ~17 req/min stays under the ~24-req burst threshold.
+# Override with the SCAN_PACE_S env var.
+_MIN_INTERVAL_S = [max(float(os.environ.get("SCAN_PACE_S", "3.5")), 1.0)]
 _COOLDOWN_UNTIL = [0.0]
 _RATE_EVENTS = [0]
 _LAST_REQ = [0.0]
@@ -197,10 +203,12 @@ def _pace():
 
 
 def _throttled():
-    """Register a 429: escalate pace + set a global cooldown."""
+    """Register a 429: escalate pace + set a global cooldown (S15: shorter
+    cooldowns — at steady pace a 429 means a busy/storming site, not our burst;
+    long cooldowns starved the scan in the Nov 2/9 partials)."""
     _RATE_EVENTS[0] += 1
-    _MIN_INTERVAL_S[0] = min(_MIN_INTERVAL_S[0] * 2, 6.0)
-    _COOLDOWN_UNTIL[0] = time.time() + 60 * min(_RATE_EVENTS[0], 3)
+    _MIN_INTERVAL_S[0] = min(_MIN_INTERVAL_S[0] * 2, 8.0)
+    _COOLDOWN_UNTIL[0] = time.time() + 30 * min(_RATE_EVENTS[0], 3)
 
 
 def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes]:

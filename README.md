@@ -23,7 +23,9 @@ baseline (2026-10-27T23:18 refresh, 0 errors).
 
 ## When it fires
 
-Every Monday 09:00 UTC (manual dispatch too). On drift it:
+Every Monday 17:07 UTC (moved S15 from 09:00 UTC = Beijing evening peak, which
+stormed both Nov-2 and Nov-9 scans into partials; 17:07 UTC = 02:07 Beijing,
+off-peak — plus heal shots 17:37 + 18:07 UTC). On drift it:
 1. opens/updates the `🔔 site drift detected` issue (email if you watch this repo),
 2. uploads `monitor/report.json` as an artifact,
 3. fails the job (GitHub emails the failure to the repo owner).
@@ -63,7 +65,7 @@ netlify-ops/README.md — fn wiped by a git build; now self-healing).
 
 | Piece | Where |
 |---|---|
-| Weekly trigger (S14 final) | **cron hub**: scheduled function `weekly` (cron `0 9 * * 1`, Mon 09:00 UTC) on **aizg-vault.netlify.app** — a NO-BUILD site (raw-API deploys only), so no git build can ever replace its fn set (that is what killed the cron twice). The hub fn POSTs a `lane/monitor` build on BOTH lane sites (NETLIFY_SITE_IDS env) |
+| Weekly trigger (S15) | **cron hub**: scheduled function `weekly` on **aizg-vault.netlify.app** — a NO-BUILD site (raw-API deploys only), so no git build can ever replace its fn set (that is what killed the cron twice). Schedules `7 17 * * 1` + `37 17 * * 1` + `7 18 * * 1` (primary + heals; each run is idempotent — a lane whose latest build is <45 min old is skipped). Fires a `lane/monitor` build on BOTH lane sites, **each with its OWN account's PAT** (`NETLIFY_PATS`, same order as `NETLIFY_SITE_IDS` — the S14 single-PAT design 404'd on the cross-account lane every week) |
 | Lane 1 | **aizg-drift-monitor.netlify.app** (wesisad5's netlify team — 300 legacy build-min/mo) — pure scan lane, no functions |
 | Lane 2 (REDUNDANT) | **aizg-drift-watch.netlify.app** (second fleet account, ujaraksuzanne-coder) — same repo, same scan; either lane failing still leaves the other alerting. Proven 2026-10-27 (scanned + drift-commented issue #2) |
 | Scan build | git-connected to the PUBLIC GitLab mirror of this repo (**wesisad5/aizhuiguang-site-monitor**, project 88179781 — migrated off the revoked old account 2026-10-27), branch `lane/monitor` (anonymous HTTPS clone — GitHub connections need deploy keys and fail) |
@@ -73,10 +75,13 @@ netlify-ops/README.md — fn wiped by a git build; now self-healing).
 | Re-baseline after a sync | `REFRESH_BASELINE=1` site env (account env API) → fire a build → it re-scans direct, commits monitor/baseline.json back to main + re-points the lane, and captures raw files (llms.txt) — then DELETE the env var (a left-over value makes scheduled scans silently re-baseline instead of alerting — this exact trap was found + fixed 2026-10-27) |
 | Raw capture lane | draft `fetch.mjs` fn on aizg-drift-monitor-2 (credit-dead account — drafts still serve): POST `{url}` → raw bytes through netlify egress (the sandbox path to aizhuiguang.tech, which rate-limits proxies) |
 
-Scanner notes (2026-10-17): the site burst-rate-limits (~24-50 rapid requests →
-429) — the scanner uses adaptive global pacing (1.2s doubling on 429, global
-cooldowns) and a 660s scan budget so the build can never hit the 15-min netlify
-cap. Pinned files now include `/assets/aizg-agent.js` and `/llms.txt`.
+Scanner notes (2026-10-17; pacing reworked 2026-11-10): the site burst-rate-limits
+(~24-50 rapid requests → 429). The scanner now paces at a **steady 3.5s/request
+from the start** (env `SCAN_PACE_S`) — the old 1.2s start pace burst-tripped the
+limiter and then starved in 60-180s cooldowns (both Nov-2 and Nov-9 scans died
+at "40 pages, 29-37 files" inside 720s, issue #5). 429s now escalate to 8s +
+shorter 30s-cooldowns; ~80 fetches ≈ 5-6 min, inside one 420s attempt.
+Pinned files include `/assets/aizg-agent.js` and `/llms.txt`.
 
 The old GHA workflow (.github/workflows/site-monitor.yml) and GitLab CI
 (.gitlab-ci.yml) remain committed as inert fallbacks if their account blocks
