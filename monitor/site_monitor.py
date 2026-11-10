@@ -86,6 +86,8 @@ WATCH_PAGES = [
     "/gallery/narrative.html",
     "/gallery/dameng.html",
     "/gallery/lumi-bot.html",
+    "/gallery/stopped-watch-20261028.html",     # S16: Codex+LTX-2.5 1-min workflow post
+    "/gallery/higgsfield-beginner-20261101.html",  # S16: GPT Image 2.5 + Seedance 2.5 tutorial
 ]
 
 # Scripts to always fetch+hash even if no page currently references them
@@ -96,6 +98,8 @@ PINNED_FILES = [
     "/assets/aizg-agent.js",   # site AI-agent guide (since 20261013)
     "/llms.txt",               # site agent instruction file (since 20261013)
     "/dianying/style-tokens.js",  # S14: director style tokens (18 styles + grades)
+    "/tools/lightcut-explainer.js",  # S16: make_explainer ×3 modes (S15 site update)
+    "/tools/lightcut-zhconv.js",     # S16: lightcut zh-conversion util (S15 site update)
 ]
 
 SCRIPT_RE = re.compile(r'<script[^>]*\bsrc="([^"]+)"[^>]*>')
@@ -191,7 +195,40 @@ _MIN_INTERVAL_S = [max(float(os.environ.get("SCAN_PACE_S", "3.5")), 1.0)]
 _COOLDOWN_UNTIL = [0.0]
 _RATE_EVENTS = [0]
 _LAST_REQ = [0.0]
+# S16: local-run pacing overrides (netlify lane behavior unchanged by default):
+# from the Z sandbox the translate.goog PROXY (not the site) rate-limits in Beijing
+# daytime, and the legacy 30*escalation cooldowns starve a local 10-min window.
+_PACE_CAP_S = float(os.environ.get("SCAN_PACE_CAP_S", "8"))
+_COOLDOWN_S = float(os.environ.get("SCAN_COOLDOWN_S", "0"))  # 0 = legacy 30*esc
 CURRENT: dict = {}  # live scan state — dumped as a partial report on SIGTERM
+
+# S16: optional checkpoint/resume for sandbox runs (SCAN_CHECKPOINT=<path>).
+# Local scans can span several shell windows (sandbox kills detached daemons and
+# caps single calls); the checkpoint carries the in-progress report + script
+# stamps so a re-invocation continues where the previous one died. Netlify runs
+# never set it (all-or-nothing per attempt is the deployed semantics).
+CKPT_PATH = os.environ.get("SCAN_CHECKPOINT", "")
+
+
+def _ck_save(report, script_stamps):
+    if not CKPT_PATH:
+        return
+    try:
+        with open(CKPT_PATH, "w") as f:
+            json.dump({"report": report, "script_stamps": script_stamps}, f,
+                      ensure_ascii=False)
+    except Exception:
+        pass
+
+
+def _ck_load():
+    if not CKPT_PATH or not os.path.exists(CKPT_PATH):
+        return {}, {}
+    try:
+        d = json.load(open(CKPT_PATH))
+        return d.get("report", {}), d.get("script_stamps", {})
+    except Exception:
+        return {}, {}
 
 
 def _pace():
@@ -207,8 +244,9 @@ def _throttled():
     cooldowns — at steady pace a 429 means a busy/storming site, not our burst;
     long cooldowns starved the scan in the Nov 2/9 partials)."""
     _RATE_EVENTS[0] += 1
-    _MIN_INTERVAL_S[0] = min(_MIN_INTERVAL_S[0] * 2, 8.0)
-    _COOLDOWN_UNTIL[0] = time.time() + 30 * min(_RATE_EVENTS[0], 3)
+    _MIN_INTERVAL_S[0] = min(_MIN_INTERVAL_S[0] * 2, _PACE_CAP_S)
+    cd = _COOLDOWN_S if _COOLDOWN_S > 0 else 30 * min(_RATE_EVENTS[0], 3)
+    _COOLDOWN_UNTIL[0] = time.time() + cd
 
 
 def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes]:
@@ -246,9 +284,13 @@ def fetch(url: str, timeout: float = 45.0, retries: int = 3) -> tuple[int, bytes
 INLINE_RE = re.compile(r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>", re.S)
 
 # Injected by the translate.goog proxy on EVERY proxied page (translate widget
-# bootstrap: _DumpException/_getCallbackFunction/_loadCss). NOT site content —
+# bootstrap: _DumpException/_getCallbackFunction/_loadCss/_setupNS). NOT site content —
 # would false-positive every page's INLINE drift when scanning via proxy.
-NOISE_SHAS = {"6ffaf44247d6"}  # filled precisely at module init below
+NOISE_SHAS = {"6ffaf44247d6"}  # legacy 2971B variant (S11 capture)
+# S16: google rotates the injected bootstrap per build (observed 2971B / 3598B / 3654B
+# variants — same markers, different gstatic build params) — match by MARKERS at any
+# size, else a rotation mid-week false-positives every proxied page at once.
+NOISE_MARKERS = ("_getCallbackFunction", "_DumpException", "_setupNS")
 
 
 def _noise_fingerprint() -> str:
@@ -262,12 +304,14 @@ def inline_blocks(html: str, min_size: int = 500) -> list[dict]:
     """Fingerprint the page's big INLINE script blocks (data payloads like
     branch-drama's BR_ALL live inline, not as separate files). Small blocks are
     volatile (bootstrap/tracking) and skipped; the translate-proxy's injected
-    2971B bootstrap is excluded by signature (it appears on every page and is
+    bootstrap is excluded by signature (it appears on every page and is
     fetch-route noise, not site content)."""
     out = []
     for m in INLINE_RE.finditer(html):
         code = m.group(1)
         if len(code) < min_size:
+            continue
+        if any(mk in code for mk in NOISE_MARKERS):
             continue
         sig = sha256(code.encode())
         if sig[:12] in NOISE_SHAS or (len(code) == 2971 and "_getCallbackFunction" in code):
@@ -309,29 +353,29 @@ def stamp_of(src_attr: str) -> str:
 
 def scan():
     global CURRENT
+    # S16 checkpoint resume: pick up a prior interrupted local run.
+    ck_report, ck_stamps = _ck_load()
     report = {
         "scannedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "pages": {},       # path -> {status, scripts: {path: stamp}}
-        "files": {},       # path -> {sha256, size, via}
-        "sitemap": [],     # url list
-        "errors": [],
+        "pages": ck_report.get("pages", {}),       # path -> {status, scripts: {path: stamp}}
+        "files": ck_report.get("files", {}),       # path -> {sha256, size, via}
+        "sitemap": ck_report.get("sitemap", []),   # url list
+        "errors": ck_report.get("errors", []),
     }
+    if ck_report:
+        print(f"[checkpoint] resuming: {len(report['pages'])} pages, "
+              f"{len(report['files'])} files, {len(report['sitemap'])} sitemap urls already captured")
     CURRENT = report
 
     # 1. sitemap surface (translate proxy serves HTML only; r.jina.ai blocks some
     # IPs; direct works from GitHub runners; last resort: the z-ai page_reader CLI
     # when present — sandbox-only convenience)
-    st, body = fetch(f"{SITE}/sitemap.xml", timeout=60)
-    if st != 200 or not body.strip():
-        try:
-            req = urllib.request.Request(f"https://r.jina.ai/{SITE}/sitemap.xml",
-                                          headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=60, context=CTX) as r:
-                body = r.read()
-                st = r.status
-        except Exception:
-            pass
-    if (st != 200 or not body.strip()) and shutil.which("z-ai"):
+    # S16 local-run note: from the Z sandbox the translate.goog sitemap.xml route
+    # HANGS ~130s per attempt (Errno 101 after 3 retries ≈ 400s wasted) while the
+    # z-ai page_reader serves it in ~15s — so when z-ai is present, try it FIRST,
+    # and keep the old chain (translate -> r.jina.ai -> z-ai) as fallback.
+    st, body = 0, b""
+    if shutil.which("z-ai"):
         try:
             out = subprocess.run(["z-ai", "function", "-n", "page_reader",
                                   "-a", json.dumps({"url": f"{SITE}/sitemap.xml"})],
@@ -342,6 +386,17 @@ def scan():
                 body, st = txt.encode(), 200
         except Exception:
             pass
+    if st != 200 or not body.strip():
+        st, body = fetch(f"{SITE}/sitemap.xml", timeout=60)
+    if st != 200 or not body.strip():
+        try:
+            req = urllib.request.Request(f"https://r.jina.ai/{SITE}/sitemap.xml",
+                                          headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=60, context=CTX) as r:
+                body = r.read()
+                st = r.status
+        except Exception:
+            pass
     if st == 200 and body.strip():
         report["sitemap"] = sorted(set(re.findall(r"https://aizhuiguang\.tech[^<\s\"']+",
                                                   body.decode("utf-8", "replace"))))
@@ -349,8 +404,13 @@ def scan():
         report["errors"].append(f"sitemap fetch failed (status {st})")
 
     # 2. pages + their scripts (paths resolved against the page; stamps keyed clean)
-    script_stamps: dict[str, str] = {}
+    script_stamps: dict[str, str] = dict(ck_stamps)
     for page in WATCH_PAGES:
+        prior = report["pages"].get(page)
+        if prior and prior.get("status") == 200 and prior.get("scripts") is not None:
+            for p, v in prior.get("scripts", {}).items():
+                script_stamps.setdefault(p, v)
+            continue
         st, body = fetch(f"{SITE}{page}", timeout=60)
         if st != 200 or not body:
             report["pages"][page] = {"status": st, "scripts": {}}
@@ -363,6 +423,7 @@ def scan():
             script_stamps.setdefault(p, v)
         report["pages"][page] = {"status": st, "scripts": stamps,
                                  "inline": inline_blocks(html)}
+        _ck_save(report, script_stamps)
 
     # 3. data files (referenced + pinned)
     for p in PINNED_FILES + sorted(script_stamps):
@@ -375,6 +436,7 @@ def scan():
         else:
             report["files"][p] = {"sha256": "", "size": 0, "stamp": script_stamps.get(p, "")}
             report["errors"].append(f"data file fetch failed: {p} (status {st})")
+        _ck_save(report, script_stamps)
 
     return report
 

@@ -12,8 +12,8 @@
    "stamp": ""
   },
   "/assets/aizg-agent.js": {
-   "sha256": "d5f97e1413e2fabba38691f98e48f880e4538462a9f6dc922239302f4d0c4cbb",
-   "size": 6444,
+   "sha256": "ad753bf85631b15dee3e87d0e251209d89fb438f722504a10e96900337a54a0d",
+   "size": 6405,
    "stamp": "20261014"
   },
   "/assets/aizg-consent.js": {
@@ -52,8 +52,8 @@
    "stamp": "20260914"
   },
   "/llms.txt": {
-   "sha256": "0fdc61989fd9dca5805405048afb9b1ab5ec102802299754d3920a2707321687",
-   "size": 23123,
+   "sha256": "163155979b96657b4a3441ef7d4c77961a5ef4d9ca9ad93336cae429d30a9f78",
+   "size": 29575,
    "stamp": ""
   },
   "/tools/aizg-mini.js": {
@@ -92,9 +92,9 @@
    "stamp": "20260824a"
   },
   "/tools/daily-influencer-data.js": {
-   "sha256": "59fae3ade8c93ca3135aa4851383d9469e7af022ca32e82c334144ab7361669a",
-   "size": 24279,
-   "stamp": "20260824a"
+   "sha256": "a8e2626ccf65c92655b3eadf8a03619f09ac28c5edd449f1e9fd7353d3354d1a",
+   "size": 24868,
+   "stamp": "20261101a"
   },
   "/tools/daily-lib.js": {
    "sha256": "f97167c4a9add62f9dc0459c208bdd3ec19b4b59c08788ced0b40fad48f02deb",
@@ -161,6 +161,11 @@
    "size": 47502,
    "stamp": "20261011a"
   },
+  "/tools/lightcut-explainer.js": {
+   "sha256": "2896993c58678bc678ed280d2dffc8c08c7899fe6f134f1d13b890e7315ed58a",
+   "size": 106948,
+   "stamp": "20261031a"
+  },
   "/tools/lightcut-music.js": {
    "sha256": "fdf596011fe4dbc4bf48ea0a326bff3be7367f2443f058b72d496f964f91bd5a",
    "size": 12523,
@@ -180,6 +185,11 @@
    "sha256": "d65ff08bd4795ed22374a6117f0510f6376f39e895d3c9f80633cddb515e634f",
    "size": 7429,
    "stamp": "20261027d"
+  },
+  "/tools/lightcut-zhconv.js": {
+   "sha256": "fb800b94ae94d5c674c7c60ad9b277534c51d02811d10aed7122e75281dc04ab",
+   "size": 6751,
+   "stamp": "20261030a"
   }
  },
  "pages": {
@@ -284,6 +294,18 @@
     "/aizg-lang.js": "",
     "/assets/aizg-consent.js": "20261027c",
     "/assets/aizg-nav.js": "20261013"
+   },
+   "status": 200
+  },
+  "/gallery/higgsfield-beginner-20261101.html": {
+   "inline": [
+    {
+     "sha256": "99c5a17d4cabaec4d0e4d9a068351871a7896268bac0148b9b34c382dd2a0c6d",
+     "size": 1408
+    }
+   ],
+   "scripts": {
+    "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
   },
@@ -431,6 +453,18 @@
    ],
    "scripts": {
     "/aizg-lang.js": "",
+    "/assets/aizg-consent.js": "20261027c"
+   },
+   "status": 200
+  },
+  "/gallery/stopped-watch-20261028.html": {
+   "inline": [
+    {
+     "sha256": "99c5a17d4cabaec4d0e4d9a068351871a7896268bac0148b9b34c382dd2a0c6d",
+     "size": 1408
+    }
+   ],
+   "scripts": {
     "/assets/aizg-consent.js": "20261027c"
    },
    "status": 200
@@ -655,8 +689,8 @@
   "/tools/daily.html": {
    "inline": [
     {
-     "sha256": "f7ff584462b3eb960ed0d7dbe16296e410873be27fe2958e4d77a7164b11c1f0",
-     "size": 98342
+     "sha256": "fd32f3b90e4565f4c4816b6589fc4216da65b25bd39d72adc8f3a21303dabe50",
+     "size": 100264
     }
    ],
    "scripts": {
@@ -668,7 +702,7 @@
     "/tools/daily-dance.js": "20260824a",
     "/tools/daily-data.js": "20260824a",
     "/tools/daily-detail.js": "20260824a",
-    "/tools/daily-influencer-data.js": "20260824a",
+    "/tools/daily-influencer-data.js": "20261101a",
     "/tools/daily-lib.js": "20260824a",
     "/tools/daily-look.js": "20260824a",
     "/tools/daily-showcase-data.js": "20260824a",
@@ -727,8 +761,8 @@
      "size": 1808
     },
     {
-     "sha256": "347309817820a4c6ca392ac65f505e73e8079ef068f94f13190a5783ef4c58de",
-     "size": 11337
+     "sha256": "f5a5fc735704f5d2caa9b4a02de081bca6903aad2aafd0c4127d92418995d5bb",
+     "size": 11273
     }
    ],
    "scripts": {
@@ -749,8 +783,8 @@
      "size": 32353
     },
     {
-     "sha256": "232a5e3a85949c069c237eb91ed4b4069d35aa977e18edb682a7908016a82a9a",
-     "size": 120373
+     "sha256": "83d690ee4ea395b87457da11f30e3b7be93e1611c65369f0c03f974c51265927",
+     "size": 120640
     }
    ],
    "scripts": {
@@ -761,15 +795,8 @@
    "status": 200
   },
   "/tools/jimeng-studio.html": {
-   "inline": [
-    {
-     "sha256": "c61892a242847f2a67280f8ac8bc6a907f8cb70c234e19d803c2054a69148854",
-     "size": 18633
-    }
-   ],
-   "scripts": {
-    "/assets/aizg-consent.js": "20261027c"
-   },
+   "inline": [],
+   "scripts": {},
    "status": 200
   },
   "/tools/jingdi.html": {
@@ -877,8 +904,8 @@
      "size": 355319
     },
     {
-     "sha256": "f1a79917054faf6af1dccd6a6b04a71d6b43e0ee6b33a92e1156f7bb682fdb82",
-     "size": 635415
+     "sha256": "fb5e9c8a8358f574035bd10c67694d99bf62c8fb96743af08cf6fead87ee1b46",
+     "size": 637146
     }
    ],
    "scripts": {
@@ -888,10 +915,12 @@
     "/assets/aizg-nav.js": "20261013",
     "/tools/lightcut-agent-pro.js": "20261026z",
     "/tools/lightcut-beatstop.js": "20261011a",
+    "/tools/lightcut-explainer.js": "20261031a",
     "/tools/lightcut-music.js": "20261027b",
     "/tools/lightcut-presets.js": "20261004b",
     "/tools/lightcut-site-tools.js": "20261027a",
-    "/tools/lightcut-tabs.js": "20261027d"
+    "/tools/lightcut-tabs.js": "20261027d",
+    "/tools/lightcut-zhconv.js": "20261030a"
    },
    "status": 200
   },
@@ -1069,12 +1098,12 @@
   "/tools/voice-studio.html": {
    "inline": [
     {
-     "sha256": "dd1bd6459089c5e3c6377ef3fe18b165d502d91bd8f2e291e2928bd87475a777",
-     "size": 10713
+     "sha256": "75233ca3efe9557204b43389990637b21404329a0a2c863828aeec5800957f5e",
+     "size": 11617
     },
     {
-     "sha256": "c77c8852889b44bd550e0de0aed348169345a459e891be234ce3a98e3ba686d2",
-     "size": 68088
+     "sha256": "b7ba382d68dcff0b973292924849c0e8f5add8f2b1a59e6df49aa9a366bdfdea",
+     "size": 79885
     }
    ],
    "scripts": {
@@ -1084,7 +1113,7 @@
    "status": 200
   }
  },
- "scannedAt": "2026-10-27T23:32:10+00:00",
+ "scannedAt": "2026-11-10T08:33:50+00:00",
  "sitemap": [
   "https://aizhuiguang.tech/",
   "https://aizhuiguang.tech/dianying/",
@@ -1095,6 +1124,7 @@
   "https://aizhuiguang.tech/gallery/dameng.html",
   "https://aizhuiguang.tech/gallery/grid-story.html",
   "https://aizhuiguang.tech/gallery/grok.html",
+  "https://aizhuiguang.tech/gallery/higgsfield-beginner-20261101.html",
   "https://aizhuiguang.tech/gallery/image-prompts.html",
   "https://aizhuiguang.tech/gallery/kling4-tests-20261024.html",
   "https://aizhuiguang.tech/gallery/lumi-bot.html",
@@ -1106,6 +1136,7 @@
   "https://aizhuiguang.tech/gallery/ren-ting-fps/",
   "https://aizhuiguang.tech/gallery/shorts.html",
   "https://aizhuiguang.tech/gallery/sky-strike.html",
+  "https://aizhuiguang.tech/gallery/stopped-watch-20261028.html",
   "https://aizhuiguang.tech/gallery/transform.html",
   "https://aizhuiguang.tech/gallery/transitions.html",
   "https://aizhuiguang.tech/gallery/tutorials.html",
@@ -1169,7 +1200,6 @@
   "https://aizhuiguang.tech/tools/demo-script.html",
   "https://aizhuiguang.tech/tools/engine-api.html",
   "https://aizhuiguang.tech/tools/engine.html",
-  "https://aizhuiguang.tech/tools/jimeng-studio.html",
   "https://aizhuiguang.tech/tools/jingdi.html",
   "https://aizhuiguang.tech/tools/lightcut-subtitles.html",
   "https://aizhuiguang.tech/tools/lightcut.html",
