@@ -245,3 +245,43 @@ build was the BUILD STAGE's function-bundling/schedule-registration step failing
 (NOT netlify_run.sh — the script itself exits 0/1 correctly; proven by the
 published trace from the diag-run.sh forensic build). If builds exit 2 the moment
 a functions dir is configured, check the fn's config export first.
+
+## S16 addendum (2026-11-10): the local-sandbox refresh lane
+
+The baseline refresh can run **from the Z sandbox** when netlify's lane is in
+the daytime-throttle window (Beijing 08:00–24:00 = 00:00–16:00 UTC) — the
+scenario that killed the 07:30 UTC netlify refresh attempt (rc=124 at the 420s
+budget cap: 2 stray translate.goog 429s escalated the pace 3.5→7→8s and 77 reqs
+no longer fit; SKILL §12 model confirmed).
+
+Procedure (what S16 did, ~35 min total):
+
+1. `FETCH_LOG=… SCAN_CHECKPOINT=/tmp/ck.json SCAN_PACE_S=3.5 SCAN_PACE_CAP_S=6
+   SCAN_COOLDOWN_S=12 python3 monitor/site_monitor.py --update` — the scanner
+   now (a) tries the **z-ai page_reader CLI first** for sitemap.xml (the
+   translate.goog XML route hangs ~130s/attempt ≈ 400s wasted), (b) **checkpoints
+   after every fetch** so a sandbox-killed run resumes across shell windows
+   (sandbox bash calls cap at ~600s and reap detached daemons), (c) accepts
+   local pacing overrides for the proxy's own limiter.
+2. Validate the refreshed baseline: sitemap 97 / pages 42 / files 38 /
+   errors `[]` (a partial scan must NEVER be committed — SIGTERM runs don't
+   write baseline.json, but a 429-degraded completed scan can; check `errors`
+   and coverage counts before pushing).
+3. Verification: rerun WITHOUT `--update` (resume from the same checkpoint is
+   fine after deleting it — a fresh full pass proves the baseline); expect
+   `NO DRIFT`.
+4. Commit to GH main, then sync the GL lane (what netlify builds): the GL
+   lane's history is API-seeded/diverged — make a tree-equal commit on top of
+   `gl/lane/monitor` (`git read-tree -mu main` on a branch off the lane) and
+   push (FF, never force).
+5. `DELETE /accounts/<acct>/env/REFRESH_BASELINE?site_id=<site>` — belt and
+   braces even if the netlify refresh attempt never set it (the S14 trap).
+
+Scanner hardening shipped with this (a572d4f): **marker-based proxy-noise
+filter** — google rotates the injected translate bootstrap (2971/3598/3654B
+observed, same `_getCallbackFunction/_DumpException/_setupNS` markers, different
+gstatic build params); the old exact-size match false-positived EVERY proxied
+page's inline hash at once (42 pages × "1 gone / 1 added" same-size blocks).
+Match by markers at any size; the site's own inline data never contains them
+(verified: the 3253B aizgTrack tracker block carries `gtag` but none of the
+translate markers — kept, correctly).
